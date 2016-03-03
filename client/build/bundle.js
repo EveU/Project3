@@ -19689,16 +19689,68 @@
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
 	
 	var BooksBox = React.createClass({
-	  displayName: "BooksBox",
+	  displayName: 'BooksBox',
 	
 	
 	  getInitialState: function getInitialState() {
 	    return { books: [] };
+	  },
+	
+	  displayBooks: function displayBooks() {
+	    var listBookInfo = [];
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = this.state.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var book = _step.value;
+	
+	        listBookInfo.push(book);
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	
+	    console.log('books', listBookInfo);
+	    return listBookInfo.map(function (value, index) {
+	      return React.createElement(
+	        'li',
+	        { key: index },
+	        ' ',
+	        value.title,
+	        ' ',
+	        React.createElement(
+	          'small',
+	          null,
+	          'by'
+	        ),
+	        ' ',
+	        value.author,
+	        ' ',
+	        React.createElement(
+	          'button',
+	          { value: index, onClick: this.handleClick },
+	          'More info'
+	        )
+	      );
+	    }.bind(this));
 	  },
 	
 	  componentDidMount: function componentDidMount() {
@@ -19707,9 +19759,9 @@
 	    request.open("GET", url);
 	    request.onload = function () {
 	      if (request.status === 200) {
-	        console.log('data received');
+	        // console.log('data received');
 	        var receivedBooks = JSON.parse(request.responseText);
-	        console.log(receivedBooks);
+	        // console.log(receivedBooks);
 	        this.setState({ books: receivedBooks });
 	      }
 	    }.bind(this);
@@ -19718,9 +19770,18 @@
 	
 	  render: function render() {
 	    return React.createElement(
-	      "h2",
+	      'div',
 	      null,
-	      " Books "
+	      React.createElement(
+	        'h2',
+	        null,
+	        ' Books '
+	      ),
+	      React.createElement(
+	        'ul',
+	        null,
+	        this.displayBooks()
+	      )
 	    );
 	  }
 	});
