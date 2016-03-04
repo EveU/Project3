@@ -19664,10 +19664,30 @@
 	
 	var React = __webpack_require__(1);
 	var BooksBox = __webpack_require__(160);
+	var BookDisplay = __webpack_require__(161);
 	
 	var ResourcesBox = React.createClass({
 	  displayName: 'ResourcesBox',
 	
+	  getInitialState: function getInitialState() {
+	    return { books: [], book: '' };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    var booksUrl = "http://localhost:3000/books";
+	    var request = new XMLHttpRequest();
+	    request.open("GET", booksUrl);
+	    request.onload = function () {
+	      if (request.status === 200) {
+	        // console.log('data received');
+	        var receivedBooks = JSON.parse(request.responseText);
+	        // console.log(receivedBooks);
+	        this.setState({ books: receivedBooks });
+	        this.setState({ book: receivedBooks[0] });
+	      }
+	    }.bind(this);
+	    request.send(null);
+	  },
 	
 	  render: function render() {
 	    return React.createElement(
@@ -19678,7 +19698,8 @@
 	        null,
 	        ' Languages Resources '
 	      ),
-	      React.createElement(BooksBox, null)
+	      React.createElement(BookDisplay, { book: this.state.book }),
+	      React.createElement(BooksBox, { books: this.state.books })
 	    );
 	  }
 	});
@@ -19697,10 +19718,6 @@
 	  displayName: 'BooksBox',
 	
 	
-	  getInitialState: function getInitialState() {
-	    return { books: [] };
-	  },
-	
 	  displayBooks: function displayBooks() {
 	    var listBookInfo = [];
 	    var _iteratorNormalCompletion = true;
@@ -19708,7 +19725,7 @@
 	    var _iteratorError = undefined;
 	
 	    try {
-	      for (var _iterator = this.state.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	      for (var _iterator = this.props.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	        var book = _step.value;
 	
 	        listBookInfo.push(book);
@@ -19740,7 +19757,6 @@
 	          null,
 	          value.title
 	        ),
-	        ' ',
 	        React.createElement(
 	          'p',
 	          null,
@@ -19755,26 +19771,11 @@
 	        ),
 	        React.createElement(
 	          'button',
-	          { value: index, onClick: this.handleClick },
-	          'More info'
+	          { value: index, onClick: this.handleClick, className: value.difficulty_level },
+	          value.difficulty_level
 	        )
 	      );
 	    }.bind(this));
-	  },
-	
-	  componentDidMount: function componentDidMount() {
-	    var url = "http://localhost:3000/books";
-	    var request = new XMLHttpRequest();
-	    request.open("GET", url);
-	    request.onload = function () {
-	      if (request.status === 200) {
-	        // console.log('data received');
-	        var receivedBooks = JSON.parse(request.responseText);
-	        // console.log(receivedBooks);
-	        this.setState({ books: receivedBooks });
-	      }
-	    }.bind(this);
-	    request.send(null);
 	  },
 	
 	  render: function render() {
@@ -19784,7 +19785,7 @@
 	      React.createElement(
 	        'h2',
 	        null,
-	        ' Books '
+	        ' All Books '
 	      ),
 	      React.createElement(
 	        'ul',
@@ -19796,6 +19797,66 @@
 	});
 	
 	module.exports = BooksBox;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var BookDisplay = React.createClass({
+	  displayName: "BookDisplay",
+	
+	  render: function render() {
+	    console.log(this.props.book.difficulty_level);
+	    return React.createElement(
+	      "div",
+	      { className: "container" },
+	      React.createElement("img", { className: "main-book grid grid-4", src: this.props.book.cover_image }),
+	      React.createElement(
+	        "div",
+	        { className: "grid grid-8" },
+	        React.createElement(
+	          "h2",
+	          { className: this.props.book.difficulty_level },
+	          this.props.book.title
+	        ),
+	        React.createElement(
+	          "h3",
+	          null,
+	          this.props.book.author
+	        ),
+	        React.createElement(
+	          "h4",
+	          null,
+	          "Difficulty: ",
+	          this.props.book.difficulty_level
+	        ),
+	        React.createElement(
+	          "p",
+	          null,
+	          this.props.book.difficulty_desc
+	        ),
+	        React.createElement(
+	          "h4",
+	          null,
+	          "Description:"
+	        ),
+	        React.createElement(
+	          "p",
+	          null,
+	          " ",
+	          this.props.book.description
+	        )
+	      ),
+	      React.createElement("br", null)
+	    );
+	  }
+	});
+	
+	module.exports = BookDisplay;
 
 /***/ }
 /******/ ]);

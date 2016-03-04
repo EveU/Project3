@@ -1,6 +1,6 @@
 img {
   height: 180px;
-  width: 130px;
+  max-width: 250px;
   display: block;
   margin: 0 auto;
 }
@@ -67,4 +67,22 @@ img {
 
 .grid-12 {
   width: 100%;
+}
+
+/* DIFFICULTY LEVELS */
+
+.Beginner {
+  background-color: green;
+}
+
+.Intermediate {
+  background-color: orange;
+}
+
+.Advanced {
+  background-color: red;
+}
+
+.Varied {
+  background: linear-gradient(to right, green, orange, red);
 }
