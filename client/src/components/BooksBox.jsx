@@ -13,7 +13,7 @@ var BooksBox = React.createClass({
     }
     console.log('books', listBookInfo)
     return listBookInfo.map(function(value, index){
-      return <li key={index}> {value.title} <small>by</small> {value.author} <button value={index} onClick={this.handleClick}>More info</button></li>
+      return <li key={index} className="grid grid-3"> <img src={value.cover_image} /><h3>{value.title}</h3> <p><small>by</small> {value.author} </p><button value={index} onClick={this.handleClick}>More info</button></li>
     }.bind(this))
   },
 
@@ -36,7 +36,7 @@ var BooksBox = React.createClass({
     return(
       <div>
         <h2> Books </h2>
-        <ul>{this.displayBooks()}</ul>
+        <ul className="container">{this.displayBooks()}</ul>
       </div>
     );
   }

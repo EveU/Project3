@@ -19732,18 +19732,27 @@
 	    return listBookInfo.map(function (value, index) {
 	      return React.createElement(
 	        'li',
-	        { key: index },
+	        { key: index, className: 'grid grid-3' },
 	        ' ',
-	        value.title,
-	        ' ',
+	        React.createElement('img', { src: value.cover_image }),
 	        React.createElement(
-	          'small',
+	          'h3',
 	          null,
-	          'by'
+	          value.title
 	        ),
 	        ' ',
-	        value.author,
-	        ' ',
+	        React.createElement(
+	          'p',
+	          null,
+	          React.createElement(
+	            'small',
+	            null,
+	            'by'
+	          ),
+	          ' ',
+	          value.author,
+	          ' '
+	        ),
 	        React.createElement(
 	          'button',
 	          { value: index, onClick: this.handleClick },
@@ -19779,7 +19788,7 @@
 	      ),
 	      React.createElement(
 	        'ul',
-	        null,
+	        { className: 'container' },
 	        this.displayBooks()
 	      )
 	    );
