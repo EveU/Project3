@@ -17,7 +17,7 @@ var ResourcesBox = React.createClass({
           var receivedBooks = JSON.parse(request.responseText);
           // console.log(receivedBooks);
           this.setState({ books: receivedBooks });
-          this.setState({ book: receivedBooks[0] });
+          this.setState({ book: receivedBooks[2] });
         }
       }.bind(this)
       request.send(null);

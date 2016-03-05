@@ -1,5 +1,6 @@
 img {
   height: 180px;
+  max-height: 300px;
   max-width: 250px;
   display: block;
   margin: 0 auto;
@@ -31,11 +32,13 @@ img {
 
 .grid-3 {
   width: 24%;
+  min-width: 168px;
   margin: 5px 0.5%;
 }
 
 .grid-4 {
   width: 33.3333333%;
+  border: none;
 }
 
 .grid-5 {
@@ -51,6 +54,7 @@ img {
 
 .grid-8 {
   width: 66.6666666%;
+  border: none;
 }
 
 .grid-9 {
