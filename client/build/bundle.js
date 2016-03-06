@@ -19671,7 +19671,15 @@
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { books: [], book: '' };
+	    return { books: [], book: '', languageToLearn: 'all', proficiency: 'all' };
+	  },
+	
+	  setLanguage: function setLanguage(language) {
+	    this.setState({ languageToLearn: language });
+	  },
+	
+	  setProficiency: function setProficiency(proficiency) {
+	    this.setState({ proficiency: proficiency });
 	  },
 	
 	  componentDidMount: function componentDidMount() {
@@ -19694,7 +19702,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(Nav, null),
+	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
 	      React.createElement(BookDisplay, { book: this.state.book }),
 	      React.createElement(BooksBox, { books: this.state.books })
 	    );
@@ -19886,7 +19894,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'go-right' },
-	        React.createElement(SearchForm, null)
+	        React.createElement(SearchForm, { onSelectLanguage: this.props.onSelectLanguage, onSelectProficiency: this.props.onSelectProficiency })
 	      )
 	    );
 	  }
@@ -19898,30 +19906,73 @@
 /* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
 	
 	var SearchForm = React.createClass({
-	  displayName: "SearchForm",
+	  displayName: 'SearchForm',
+	
+	  getInitialState: function getInitialState() {
+	    return { selectedLanguage: 'all', selectedDifficulty: 'all' };
+	  },
+	
+	  handleLanguageChange: function handleLanguageChange(e) {
+	    e.preventDefault;
+	    var language = e.target.value;
+	    this.setState({ selectedLanguage: language });
+	    this.props.onSelectLanguage(language);
+	  },
+	
+	  handleDifficultyChange: function handleDifficultyChange(e) {
+	    e.preventDefault;
+	    var difficulty = e.target.value;
+	    this.setState({ selectedDifficulty: difficulty });
+	    this.props.onSelectProficiency(difficulty);
+	  },
 	
 	  render: function render() {
 	    return React.createElement(
-	      "form",
+	      'form',
 	      null,
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "Language"
-	        // value={this.state.language}
-	        // onChange={this.handleLanguageChange}
-	      }),
-	      React.createElement("input", {
-	        type: "text",
-	        placeholder: "Level"
-	        // value={this.state.difficulty}
-	        // onChange={this.handleDifficultyChange}
-	      }),
-	      React.createElement("input", { type: "submit", value: "Search" })
+	      React.createElement(
+	        'select',
+	        { onChange: this.handleLanguageChange, value: this.state.selectedLanguage },
+	        React.createElement(
+	          'option',
+	          { value: '' },
+	          'Choose a language...'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Spanish' },
+	          'Spanish'
+	        )
+	      ),
+	      React.createElement(
+	        'select',
+	        { value: this.state.selectedDifficulty, onChange: this.handleDifficultyChange },
+	        React.createElement(
+	          'option',
+	          { value: '' },
+	          'Select your level...'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Beginner' },
+	          'Beginner'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Intermediate' },
+	          'Intermediate'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Advanced' },
+	          'Advanced'
+	        )
+	      )
 	    );
 	  }
 	});

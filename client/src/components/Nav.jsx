@@ -9,7 +9,7 @@ var Nav = React.createClass({
           <h1> Languages Resources </h1>
         </div>
         <div className="go-right">
-          <SearchForm></SearchForm>
+          <SearchForm onSelectLanguage={this.props.onSelectLanguage} onSelectProficiency={this.props.onSelectProficiency} ></SearchForm>
         </div>
       </div>
     )
