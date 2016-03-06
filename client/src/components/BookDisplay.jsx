@@ -2,7 +2,7 @@ var React = require('react');
 
 var BookDisplay = React.createClass({
   render: function(){
-    console.log(this.props.book.difficulty_level);
+    if(this.props.book != ''){
     return(
       <div className="container">
         <img className="main-book grid grid-4" src={this.props.book.cover_image} />
@@ -17,6 +17,9 @@ var BookDisplay = React.createClass({
         <br/>
       </div>
     )
+    }else{
+      return <div/>
+    }
   }
 });
 

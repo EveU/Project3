@@ -1,6 +1,7 @@
 var React = require('react');
+var Nav = require('./Nav');
+var BookDisplay = require('./BookDisplay');
 var BooksBox = require('./BooksBox');
-var BookDisplay= require('./BookDisplay');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
@@ -17,7 +18,7 @@ var ResourcesBox = React.createClass({
           var receivedBooks = JSON.parse(request.responseText);
           // console.log(receivedBooks);
           this.setState({ books: receivedBooks });
-          this.setState({ book: receivedBooks[2] });
+          // this.setState({ book: receivedBooks[2] });
         }
       }.bind(this)
       request.send(null);
@@ -26,7 +27,7 @@ var ResourcesBox = React.createClass({
   render: function(){
     return(
         <div>
-          <h1> Languages Resources </h1>
+          <Nav></Nav>
           <BookDisplay book={this.state.book}></BookDisplay>
           <BooksBox books={this.state.books}></BooksBox>
         </div>

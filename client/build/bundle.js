@@ -19663,8 +19663,9 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var BooksBox = __webpack_require__(160);
+	var Nav = __webpack_require__(162);
 	var BookDisplay = __webpack_require__(161);
+	var BooksBox = __webpack_require__(160);
 	
 	var ResourcesBox = React.createClass({
 	  displayName: 'ResourcesBox',
@@ -19683,7 +19684,7 @@
 	        var receivedBooks = JSON.parse(request.responseText);
 	        // console.log(receivedBooks);
 	        this.setState({ books: receivedBooks });
-	        this.setState({ book: receivedBooks[2] });
+	        // this.setState({ book: receivedBooks[2] });
 	      }
 	    }.bind(this);
 	    request.send(null);
@@ -19693,11 +19694,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        ' Languages Resources '
-	      ),
+	      React.createElement(Nav, null),
 	      React.createElement(BookDisplay, { book: this.state.book }),
 	      React.createElement(BooksBox, { books: this.state.books })
 	    );
@@ -19802,61 +19799,134 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
 	
 	var BookDisplay = React.createClass({
-	  displayName: "BookDisplay",
+	  displayName: 'BookDisplay',
 	
 	  render: function render() {
-	    console.log(this.props.book.difficulty_level);
-	    return React.createElement(
-	      "div",
-	      { className: "container" },
-	      React.createElement("img", { className: "main-book grid grid-4", src: this.props.book.cover_image }),
-	      React.createElement(
-	        "div",
-	        { className: "grid grid-8" },
+	    if (this.props.book != '') {
+	      return React.createElement(
+	        'div',
+	        { className: 'container' },
+	        React.createElement('img', { className: 'main-book grid grid-4', src: this.props.book.cover_image }),
 	        React.createElement(
-	          "h2",
-	          { className: this.props.book.difficulty_level },
-	          this.props.book.title
+	          'div',
+	          { className: 'grid grid-8' },
+	          React.createElement(
+	            'h2',
+	            { className: this.props.book.difficulty_level },
+	            this.props.book.title
+	          ),
+	          React.createElement(
+	            'h3',
+	            null,
+	            this.props.book.author
+	          ),
+	          React.createElement(
+	            'h4',
+	            null,
+	            'Difficulty: ',
+	            this.props.book.difficulty_level
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            this.props.book.difficulty_desc
+	          ),
+	          React.createElement(
+	            'h4',
+	            null,
+	            'Description:'
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            ' ',
+	            this.props.book.description
+	          )
 	        ),
-	        React.createElement(
-	          "h3",
-	          null,
-	          this.props.book.author
-	        ),
-	        React.createElement(
-	          "h4",
-	          null,
-	          "Difficulty: ",
-	          this.props.book.difficulty_level
-	        ),
-	        React.createElement(
-	          "p",
-	          null,
-	          this.props.book.difficulty_desc
-	        ),
-	        React.createElement(
-	          "h4",
-	          null,
-	          "Description:"
-	        ),
-	        React.createElement(
-	          "p",
-	          null,
-	          " ",
-	          this.props.book.description
-	        )
-	      ),
-	      React.createElement("br", null)
-	    );
+	        React.createElement('br', null)
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
 	  }
 	});
 	
 	module.exports = BookDisplay;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SearchForm = __webpack_require__(163);
+	
+	var Nav = React.createClass({
+	  displayName: 'Nav',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'nav' },
+	      React.createElement(
+	        'div',
+	        { className: 'go-left' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          ' Languages Resources '
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'go-right' },
+	        React.createElement(SearchForm, null)
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Nav;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var SearchForm = React.createClass({
+	  displayName: "SearchForm",
+	
+	  render: function render() {
+	    return React.createElement(
+	      "form",
+	      null,
+	      React.createElement("input", {
+	        type: "text",
+	        placeholder: "Language"
+	        // value={this.state.language}
+	        // onChange={this.handleLanguageChange}
+	      }),
+	      React.createElement("input", {
+	        type: "text",
+	        placeholder: "Level"
+	        // value={this.state.difficulty}
+	        // onChange={this.handleDifficultyChange}
+	      }),
+	      React.createElement("input", { type: "submit", value: "Search" })
+	    );
+	  }
+	});
+	
+	module.exports = SearchForm;
 
 /***/ }
 /******/ ]);
