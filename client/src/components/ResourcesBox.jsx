@@ -5,7 +5,7 @@ var BooksBox = require('./BooksBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
-    return {books: [], book: '', languageToLearn:'all', proficiency:'all'}
+    return {books: [], currentBook: '', languageToLearn:'all', proficiency:'all'}
   },
 
   setLanguage: function(language){
@@ -14,6 +14,10 @@ var ResourcesBox = React.createClass({
 
   setProficiency: function(proficiency){
     this.setState( { proficiency: proficiency } )
+  },
+
+  setCurrentBook: function(book){
+    this.setState( { currentBook: book } )
   },
 
   componentDidMount: function(){
@@ -26,7 +30,7 @@ var ResourcesBox = React.createClass({
           var receivedBooks = JSON.parse(request.responseText);
           // console.log(receivedBooks);
           this.setState({ books: receivedBooks });
-          // this.setState({ book: receivedBooks[2] });
+          this.setState({ currentBook: receivedBooks[2] });
         }
       }.bind(this)
       request.send(null);
@@ -36,8 +40,8 @@ var ResourcesBox = React.createClass({
     return(
         <div>
           <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-          <BookDisplay book={this.state.book}></BookDisplay>
-          <BooksBox books={this.state.books}></BooksBox>
+          <BookDisplay book={this.state.currentBook}></BookDisplay>
+          <BooksBox books={this.state.books} onSelectBook={this.setCurrentBook}></BooksBox>
         </div>
     )
   }

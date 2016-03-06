@@ -19671,7 +19671,7 @@
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { books: [], book: '', languageToLearn: 'all', proficiency: 'all' };
+	    return { books: [], currentBook: '', languageToLearn: 'all', proficiency: 'all' };
 	  },
 	
 	  setLanguage: function setLanguage(language) {
@@ -19680,6 +19680,10 @@
 	
 	  setProficiency: function setProficiency(proficiency) {
 	    this.setState({ proficiency: proficiency });
+	  },
+	
+	  setCurrentBook: function setCurrentBook(book) {
+	    this.setState({ currentBook: book });
 	  },
 	
 	  componentDidMount: function componentDidMount() {
@@ -19692,7 +19696,7 @@
 	        var receivedBooks = JSON.parse(request.responseText);
 	        // console.log(receivedBooks);
 	        this.setState({ books: receivedBooks });
-	        // this.setState({ book: receivedBooks[2] });
+	        this.setState({ currentBook: receivedBooks[2] });
 	      }
 	    }.bind(this);
 	    request.send(null);
@@ -19703,8 +19707,8 @@
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(BookDisplay, { book: this.state.book }),
-	      React.createElement(BooksBox, { books: this.state.books })
+	      React.createElement(BookDisplay, { book: this.state.currentBook }),
+	      React.createElement(BooksBox, { books: this.state.books, onSelectBook: this.setCurrentBook })
 	    );
 	  }
 	});
@@ -19722,6 +19726,17 @@
 	var BooksBox = React.createClass({
 	  displayName: 'BooksBox',
 	
+	  getInitialState: function getInitialState() {
+	    return { selectedIndex: null };
+	  },
+	
+	  handleClick: function handleClick(e) {
+	    e.preventDefault;
+	    var index = e.target.value;
+	    this.setState({ selectedIndex: index });
+	    var currentBook = this.props.books[index];
+	    this.props.onSelectBook(currentBook);
+	  },
 	
 	  displayBooks: function displayBooks() {
 	    var listBookInfo = [];

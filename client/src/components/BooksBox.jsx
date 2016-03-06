@@ -1,8 +1,19 @@
 var React = require('react');
 
 var BooksBox = React.createClass({
+  getInitialState: function(){
+    return {selectedIndex: null}
+  },
 
-  displayBooks: function() {
+  handleClick: function(e){
+    e.preventDefault;
+    var index = e.target.value
+    this.setState( {selectedIndex: index} );
+    var currentBook = this.props.books[index];
+    this.props.onSelectBook(currentBook);
+  },
+
+  displayBooks: function(){
     var listBookInfo = [];
     for(var book of this.props.books){
       listBookInfo.push(book);
