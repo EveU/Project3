@@ -19704,7 +19704,7 @@
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
 	      React.createElement(BookDisplay, { book: this.state.book }),
-	      React.createElement(BooksBox, { books: this.state.books, language: this.state.languageToLearn })
+	      React.createElement(BooksBox, { books: this.state.books, language: this.state.languageToLearn, proficiency: this.state.proficiency })
 	    );
 	  }
 	});
@@ -19734,7 +19734,9 @@
 	        var book = _step.value;
 	
 	        if (!this.props.language || book.language === this.props.language) {
-	          listBookInfo.push(book);
+	          if (!this.props.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.props.proficiency) {
+	            listBookInfo.push(book);
+	          }
 	        }
 	      }
 	    } catch (err) {

@@ -37,7 +37,7 @@ var ResourcesBox = React.createClass({
         <div>
           <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
           <BookDisplay book={this.state.book}></BookDisplay>
-          <BooksBox books={this.state.books} language={this.state.languageToLearn}></BooksBox>
+          <BooksBox books={this.state.books} language={this.state.languageToLearn} proficiency={this.state.proficiency} ></BooksBox>
         </div>
     )
   }

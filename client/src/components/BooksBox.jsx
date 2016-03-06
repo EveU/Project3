@@ -6,7 +6,9 @@ var BooksBox = React.createClass({
     var listBookInfo = [];
     for(var book of this.props.books){
       if(!this.props.language || book.language === this.props.language){
-        listBookInfo.push(book);
+        if(!this.props.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.props.proficiency){
+          listBookInfo.push(book);
+        }
       }
     }
     console.log('books', listBookInfo)
