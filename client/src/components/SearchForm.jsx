@@ -24,6 +24,7 @@ var SearchForm = React.createClass({
       <form>
         <select onChange={this.handleLanguageChange} value={this.state.selectedLanguage} >
           <option value="">Choose a language...</option>
+          <option value="English">English</option>
           <option value="Spanish">Spanish</option>
         </select>
         <select value={this.state.selectedDifficulty} onChange={this.handleDifficultyChange}>

@@ -19663,15 +19663,15 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var Nav = __webpack_require__(162);
-	var BookDisplay = __webpack_require__(161);
-	var BooksBox = __webpack_require__(160);
+	var Nav = __webpack_require__(160);
+	var BookDisplay = __webpack_require__(162);
+	var BooksBox = __webpack_require__(163);
 	
 	var ResourcesBox = React.createClass({
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { books: [], currentBook: '', languageToLearn: 'all', proficiency: 'all' };
+	    return { books: [], currentBook: '', languageToLearn: null, proficiency: null };
 	  },
 	
 	  setLanguage: function setLanguage(language) {
@@ -19708,7 +19708,7 @@
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
 	      React.createElement(BookDisplay, { book: this.state.currentBook }),
-	      React.createElement(BooksBox, { books: this.state.books, onSelectBook: this.setCurrentBook })
+	      React.createElement(BooksBox, { books: this.state.books, language: this.state.languageToLearn, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook })
 	    );
 	  }
 	});
@@ -19717,6 +19717,187 @@
 
 /***/ },
 /* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var SearchForm = __webpack_require__(161);
+	
+	var Nav = React.createClass({
+	  displayName: 'Nav',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'nav' },
+	      React.createElement(
+	        'div',
+	        { className: 'go-left' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          ' Languages Resources '
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'go-right' },
+	        React.createElement(SearchForm, { onSelectLanguage: this.props.onSelectLanguage, onSelectProficiency: this.props.onSelectProficiency })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Nav;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var SearchForm = React.createClass({
+	  displayName: 'SearchForm',
+	
+	  getInitialState: function getInitialState() {
+	    return { selectedLanguage: 'all', selectedDifficulty: 'all' };
+	  },
+	
+	  handleLanguageChange: function handleLanguageChange(e) {
+	    e.preventDefault;
+	    var language = e.target.value;
+	    this.setState({ selectedLanguage: language });
+	    this.props.onSelectLanguage(language);
+	  },
+	
+	  handleDifficultyChange: function handleDifficultyChange(e) {
+	    e.preventDefault;
+	    var difficulty = e.target.value;
+	    this.setState({ selectedDifficulty: difficulty });
+	    this.props.onSelectProficiency(difficulty);
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      'form',
+	      null,
+	      React.createElement(
+	        'select',
+	        { onChange: this.handleLanguageChange, value: this.state.selectedLanguage },
+	        React.createElement(
+	          'option',
+	          { value: '' },
+	          'Choose a language...'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'English' },
+	          'English'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Spanish' },
+	          'Spanish'
+	        )
+	      ),
+	      React.createElement(
+	        'select',
+	        { value: this.state.selectedDifficulty, onChange: this.handleDifficultyChange },
+	        React.createElement(
+	          'option',
+	          { value: '' },
+	          'Select your level...'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Beginner' },
+	          'Beginner'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Intermediate' },
+	          'Intermediate'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'Advanced' },
+	          'Advanced'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SearchForm;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var BookDisplay = React.createClass({
+	  displayName: "BookDisplay",
+	
+	  render: function render() {
+	    if (this.props.book) {
+	      return React.createElement(
+	        "div",
+	        { className: "container" },
+	        React.createElement("img", { className: "main-book grid grid-4", src: this.props.book.cover_image }),
+	        React.createElement(
+	          "div",
+	          { className: "grid grid-8" },
+	          React.createElement(
+	            "h2",
+	            { className: this.props.book.difficulty_level },
+	            this.props.book.title
+	          ),
+	          React.createElement(
+	            "h3",
+	            null,
+	            this.props.book.author
+	          ),
+	          React.createElement(
+	            "h4",
+	            null,
+	            "Difficulty: ",
+	            this.props.book.difficulty_level
+	          ),
+	          React.createElement(
+	            "p",
+	            null,
+	            this.props.book.difficulty_desc
+	          ),
+	          React.createElement(
+	            "h4",
+	            null,
+	            "Description:"
+	          ),
+	          React.createElement(
+	            "p",
+	            null,
+	            " ",
+	            this.props.book.description
+	          )
+	        ),
+	        React.createElement("br", null)
+	      );
+	    } else {
+	      return React.createElement("div", null);
+	    }
+	  }
+	});
+	
+	module.exports = BookDisplay;
+
+/***/ },
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19748,7 +19929,11 @@
 	      for (var _iterator = this.props.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	        var book = _step.value;
 	
-	        listBookInfo.push(book);
+	        if (!this.props.language || book.language === this.props.language) {
+	          if (!this.props.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.props.proficiency) {
+	            listBookInfo.push(book);
+	          }
+	        }
 	      }
 	    } catch (err) {
 	      _didIteratorError = true;
@@ -19817,182 +20002,6 @@
 	});
 	
 	module.exports = BooksBox;
-
-/***/ },
-/* 161 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	
-	var BookDisplay = React.createClass({
-	  displayName: 'BookDisplay',
-	
-	  render: function render() {
-	    if (this.props.book != '') {
-	      return React.createElement(
-	        'div',
-	        { className: 'container' },
-	        React.createElement('img', { className: 'main-book grid grid-4', src: this.props.book.cover_image }),
-	        React.createElement(
-	          'div',
-	          { className: 'grid grid-8' },
-	          React.createElement(
-	            'h2',
-	            { className: this.props.book.difficulty_level },
-	            this.props.book.title
-	          ),
-	          React.createElement(
-	            'h3',
-	            null,
-	            this.props.book.author
-	          ),
-	          React.createElement(
-	            'h4',
-	            null,
-	            'Difficulty: ',
-	            this.props.book.difficulty_level
-	          ),
-	          React.createElement(
-	            'p',
-	            null,
-	            this.props.book.difficulty_desc
-	          ),
-	          React.createElement(
-	            'h4',
-	            null,
-	            'Description:'
-	          ),
-	          React.createElement(
-	            'p',
-	            null,
-	            ' ',
-	            this.props.book.description
-	          )
-	        ),
-	        React.createElement('br', null)
-	      );
-	    } else {
-	      return React.createElement('div', null);
-	    }
-	  }
-	});
-	
-	module.exports = BookDisplay;
-
-/***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var SearchForm = __webpack_require__(163);
-	
-	var Nav = React.createClass({
-	  displayName: 'Nav',
-	
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { id: 'nav' },
-	      React.createElement(
-	        'div',
-	        { className: 'go-left' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          ' Languages Resources '
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'go-right' },
-	        React.createElement(SearchForm, { onSelectLanguage: this.props.onSelectLanguage, onSelectProficiency: this.props.onSelectProficiency })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = Nav;
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	
-	var SearchForm = React.createClass({
-	  displayName: 'SearchForm',
-	
-	  getInitialState: function getInitialState() {
-	    return { selectedLanguage: 'all', selectedDifficulty: 'all' };
-	  },
-	
-	  handleLanguageChange: function handleLanguageChange(e) {
-	    e.preventDefault;
-	    var language = e.target.value;
-	    this.setState({ selectedLanguage: language });
-	    this.props.onSelectLanguage(language);
-	  },
-	
-	  handleDifficultyChange: function handleDifficultyChange(e) {
-	    e.preventDefault;
-	    var difficulty = e.target.value;
-	    this.setState({ selectedDifficulty: difficulty });
-	    this.props.onSelectProficiency(difficulty);
-	  },
-	
-	  render: function render() {
-	    return React.createElement(
-	      'form',
-	      null,
-	      React.createElement(
-	        'select',
-	        { onChange: this.handleLanguageChange, value: this.state.selectedLanguage },
-	        React.createElement(
-	          'option',
-	          { value: '' },
-	          'Choose a language...'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: 'Spanish' },
-	          'Spanish'
-	        )
-	      ),
-	      React.createElement(
-	        'select',
-	        { value: this.state.selectedDifficulty, onChange: this.handleDifficultyChange },
-	        React.createElement(
-	          'option',
-	          { value: '' },
-	          'Select your level...'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: 'Beginner' },
-	          'Beginner'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: 'Intermediate' },
-	          'Intermediate'
-	        ),
-	        React.createElement(
-	          'option',
-	          { value: 'Advanced' },
-	          'Advanced'
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SearchForm;
 
 /***/ }
 /******/ ]);

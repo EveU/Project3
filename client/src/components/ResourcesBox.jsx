@@ -5,7 +5,7 @@ var BooksBox = require('./BooksBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
-    return {books: [], currentBook: '', languageToLearn:'all', proficiency:'all'}
+    return {books: [], currentBook: '', languageToLearn: null, proficiency: null }
   },
 
   setLanguage: function(language){
@@ -41,7 +41,7 @@ var ResourcesBox = React.createClass({
         <div>
           <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
           <BookDisplay book={this.state.currentBook}></BookDisplay>
-          <BooksBox books={this.state.books} onSelectBook={this.setCurrentBook}></BooksBox>
+          <BooksBox books={this.state.books} language={this.state.languageToLearn} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook}></BooksBox>
         </div>
     )
   }
