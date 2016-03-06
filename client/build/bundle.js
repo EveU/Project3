@@ -19667,6 +19667,8 @@
 	var BookDisplay = __webpack_require__(161);
 	var BooksBox = __webpack_require__(160);
 	
+	var Library = __webpack_require__(164);
+	
 	var ResourcesBox = React.createClass({
 	  displayName: 'ResourcesBox',
 	
@@ -19699,45 +19701,16 @@
 	  },
 	
 	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(BookDisplay, { book: this.state.book }),
-	      React.createElement(BooksBox, { books: this.state.books, language: this.state.languageToLearn, proficiency: this.state.proficiency })
-	    );
-	  }
-	});
-	
-	module.exports = ResourcesBox;
-
-/***/ },
-/* 160 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	
-	var BooksBox = React.createClass({
-	  displayName: 'BooksBox',
-	
-	
-	  displayBooks: function displayBooks() {
-	    var listBookInfo = [];
+	    var library = new Library();
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
 	
 	    try {
-	      for (var _iterator = this.props.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	      for (var _iterator = this.state.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	        var book = _step.value;
 	
-	        if (!this.props.language || book.language === this.props.language) {
-	          if (!this.props.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.props.proficiency) {
-	            listBookInfo.push(book);
-	          }
-	        }
+	        library.addBook(book);
 	      }
 	    } catch (err) {
 	      _didIteratorError = true;
@@ -19754,32 +19727,57 @@
 	      }
 	    }
 	
-	    console.log('books', listBookInfo);
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
+	      React.createElement(BookDisplay, { book: this.state.book }),
+	      React.createElement(BooksBox, { books: library.books, library: library, language: this.state.languageToLearn, proficiency: this.state.proficiency })
+	    );
+	  }
+	});
+	
+	module.exports = ResourcesBox;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var BooksBox = React.createClass({
+	  displayName: "BooksBox",
+	
+	
+	  displayBooks: function displayBooks() {
+	    var listBookInfo = this.props.library.filterBooks(this.props.language, this.props.proficiency);
 	    return listBookInfo.map(function (value, index) {
 	      return React.createElement(
-	        'li',
-	        { key: index, className: 'grid grid-3' },
-	        ' ',
-	        React.createElement('img', { src: value.cover_image }),
+	        "li",
+	        { key: index, className: "grid grid-3" },
+	        " ",
+	        React.createElement("img", { src: value.cover_image }),
 	        React.createElement(
-	          'h3',
+	          "h3",
 	          null,
 	          value.title
 	        ),
 	        React.createElement(
-	          'p',
+	          "p",
 	          null,
 	          React.createElement(
-	            'small',
+	            "small",
 	            null,
-	            'by'
+	            "by"
 	          ),
-	          ' ',
+	          " ",
 	          value.author,
-	          ' '
+	          " "
 	        ),
 	        React.createElement(
-	          'button',
+	          "button",
 	          { value: index, onClick: this.handleClick, className: value.difficulty_level },
 	          value.difficulty_level
 	        )
@@ -19789,16 +19787,16 @@
 	
 	  render: function render() {
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
 	      React.createElement(
-	        'h2',
+	        "h2",
 	        null,
-	        ' All Books '
+	        " All Books "
 	      ),
 	      React.createElement(
-	        'ul',
-	        { className: 'container' },
+	        "ul",
+	        { className: "container" },
 	        this.displayBooks()
 	      )
 	    );
@@ -19987,6 +19985,108 @@
 	});
 	
 	module.exports = SearchForm;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var ResourceLibrary = function ResourceLibrary() {
+	  this.books = [];
+	};
+	
+	ResourceLibrary.prototype = {
+	  addBook: function addBook(book) {
+	    this.books.push(book);
+	  },
+	
+	  filterByLanguage: function filterByLanguage(books, language) {
+	    var filteredBooks = [];
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var book = _step.value;
+	
+	        if (language === book.language) {
+	          filteredBooks.push(book);
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	
+	    return filteredBooks;
+	  },
+	
+	  filterByProficiency: function filterByProficiency(books, proficiency) {
+	    var filteredBooks = [];
+	    var _iteratorNormalCompletion2 = true;
+	    var _didIteratorError2 = false;
+	    var _iteratorError2 = undefined;
+	
+	    try {
+	      for (var _iterator2 = books[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	        var book = _step2.value;
+	
+	        if (proficiency === book.difficulty_level || book.difficulty_level === 'Varied') {
+	          filteredBooks.push(book);
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError2 = true;
+	      _iteratorError2 = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	          _iterator2.return();
+	        }
+	      } finally {
+	        if (_didIteratorError2) {
+	          throw _iteratorError2;
+	        }
+	      }
+	    }
+	
+	    return filteredBooks;
+	  },
+	
+	  filterBooks: function filterBooks(language, proficiency) {
+	    var filteredBooks = [];
+	    if (!language && !proficiency) {
+	      return this.books;
+	    } else if (!proficiency) {
+	      filteredBooks = this.filterByLanguage(this.books, language);
+	      console.log(filteredBooks);
+	    } else if (!language) {
+	      filteredBooks = this.filterByProficiency(this.books, proficiency);
+	      console.log(filteredBooks);
+	    } else {
+	      filteredBooks = this.filterByLanguage(this.books, language);
+	      console.log(filteredBooks);
+	      filteredBooks = this.filterByProficiency(filteredBooks, proficiency);
+	      console.log(filteredBooks);
+	    }
+	    return filteredBooks;
+	  }
+	
+	};
+	
+	module.exports = ResourceLibrary;
 
 /***/ }
 /******/ ]);

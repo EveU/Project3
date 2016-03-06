@@ -3,6 +3,8 @@ var Nav = require('./Nav');
 var BookDisplay = require('./BookDisplay');
 var BooksBox = require('./BooksBox');
 
+var Library = require('../resourceLibrary');
+
 var ResourcesBox = React.createClass({
   getInitialState: function() {
     return {books: [], book: '', languageToLearn: null, proficiency: null }
@@ -33,11 +35,15 @@ var ResourcesBox = React.createClass({
   },
 
   render: function(){
+    var library = new Library();
+    for(var book of this.state.books){
+      library.addBook(book);
+    }
     return(
         <div>
           <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
           <BookDisplay book={this.state.book}></BookDisplay>
-          <BooksBox books={this.state.books} language={this.state.languageToLearn} proficiency={this.state.proficiency} ></BooksBox>
+          <BooksBox books={library.books} library={library} language={this.state.languageToLearn} proficiency={this.state.proficiency} ></BooksBox>
         </div>
     )
   }

@@ -3,15 +3,7 @@ var React = require('react');
 var BooksBox = React.createClass({
 
   displayBooks: function() {
-    var listBookInfo = [];
-    for(var book of this.props.books){
-      if(!this.props.language || book.language === this.props.language){
-        if(!this.props.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.props.proficiency){
-          listBookInfo.push(book);
-        }
-      }
-    }
-    console.log('books', listBookInfo)
+    var listBookInfo = this.props.library.filterBooks(this.props.language, this.props.proficiency);
     return listBookInfo.map(function(value, index){
       return <li key={index} className="grid grid-3"> <img src={value.cover_image} /><h3>{value.title}</h3><p><small>by</small> {value.author} </p><button value={index} onClick={this.handleClick} className={value.difficulty_level}>{value.difficulty_level}</button></li>
     }.bind(this))
