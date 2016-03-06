@@ -5,7 +5,9 @@ var BooksBox = React.createClass({
   displayBooks: function() {
     var listBookInfo = [];
     for(var book of this.props.books){
-      listBookInfo.push(book);
+      if(!this.props.language || book.language === this.props.language){
+        listBookInfo.push(book);
+      }
     }
     console.log('books', listBookInfo)
     return listBookInfo.map(function(value, index){

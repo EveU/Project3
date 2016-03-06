@@ -19671,7 +19671,7 @@
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { books: [], book: '', languageToLearn: 'all', proficiency: 'all' };
+	    return { books: [], book: '', languageToLearn: null, proficiency: null };
 	  },
 	
 	  setLanguage: function setLanguage(language) {
@@ -19704,7 +19704,7 @@
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
 	      React.createElement(BookDisplay, { book: this.state.book }),
-	      React.createElement(BooksBox, { books: this.state.books })
+	      React.createElement(BooksBox, { books: this.state.books, language: this.state.languageToLearn })
 	    );
 	  }
 	});
@@ -19733,7 +19733,9 @@
 	      for (var _iterator = this.props.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	        var book = _step.value;
 	
-	        listBookInfo.push(book);
+	        if (!this.props.language || book.language === this.props.language) {
+	          listBookInfo.push(book);
+	        }
 	      }
 	    } catch (err) {
 	      _didIteratorError = true;
@@ -19807,59 +19809,59 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(1);
 	
 	var BookDisplay = React.createClass({
-	  displayName: 'BookDisplay',
+	  displayName: "BookDisplay",
 	
 	  render: function render() {
-	    if (this.props.book != '') {
+	    if (this.props.book) {
 	      return React.createElement(
-	        'div',
-	        { className: 'container' },
-	        React.createElement('img', { className: 'main-book grid grid-4', src: this.props.book.cover_image }),
+	        "div",
+	        { className: "container" },
+	        React.createElement("img", { className: "main-book grid grid-4", src: this.props.book.cover_image }),
 	        React.createElement(
-	          'div',
-	          { className: 'grid grid-8' },
+	          "div",
+	          { className: "grid grid-8" },
 	          React.createElement(
-	            'h2',
+	            "h2",
 	            { className: this.props.book.difficulty_level },
 	            this.props.book.title
 	          ),
 	          React.createElement(
-	            'h3',
+	            "h3",
 	            null,
 	            this.props.book.author
 	          ),
 	          React.createElement(
-	            'h4',
+	            "h4",
 	            null,
-	            'Difficulty: ',
+	            "Difficulty: ",
 	            this.props.book.difficulty_level
 	          ),
 	          React.createElement(
-	            'p',
+	            "p",
 	            null,
 	            this.props.book.difficulty_desc
 	          ),
 	          React.createElement(
-	            'h4',
+	            "h4",
 	            null,
-	            'Description:'
+	            "Description:"
 	          ),
 	          React.createElement(
-	            'p',
+	            "p",
 	            null,
-	            ' ',
+	            " ",
 	            this.props.book.description
 	          )
 	        ),
-	        React.createElement('br', null)
+	        React.createElement("br", null)
 	      );
 	    } else {
-	      return React.createElement('div', null);
+	      return React.createElement("div", null);
 	    }
 	  }
 	});
@@ -19942,6 +19944,11 @@
 	          'option',
 	          { value: '' },
 	          'Choose a language...'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'English' },
+	          'English'
 	        ),
 	        React.createElement(
 	          'option',

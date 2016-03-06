@@ -2,7 +2,7 @@ var React = require('react');
 
 var BookDisplay = React.createClass({
   render: function(){
-    if(this.props.book != ''){
+    if(this.props.book){
     return(
       <div className="container">
         <img className="main-book grid grid-4" src={this.props.book.cover_image} />
