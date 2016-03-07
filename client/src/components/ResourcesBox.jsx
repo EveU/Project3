@@ -1,11 +1,10 @@
 var React = require('react');
 var Nav = require('./Nav');
-var BookDisplay = require('./BookDisplay');
 var BooksBox = require('./BooksBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
-    return {books: [], currentBook: '', languageToLearn: null, proficiency: null }
+    return {books: [], currentBook: null, languageToLearn: null, proficiency: null }
   },
 
   setLanguage: function(language){
@@ -30,7 +29,8 @@ var ResourcesBox = React.createClass({
           var receivedBooks = JSON.parse(request.responseText);
           // console.log(receivedBooks);
           this.setState({ books: receivedBooks });
-          this.setState({ currentBook: receivedBooks[2] });
+          var random = Math.floor(Math.random() * receivedBooks.length);
+          this.setState({ currentBook: receivedBooks[random] });
         }
       }.bind(this)
       request.send(null);
@@ -40,8 +40,7 @@ var ResourcesBox = React.createClass({
     return(
         <div>
           <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-          <BookDisplay book={this.state.currentBook}></BookDisplay>
-          <BooksBox books={this.state.books} language={this.state.languageToLearn} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook}></BooksBox>
+          <BooksBox books={this.state.books} book={this.state.currentBook} language={this.state.languageToLearn} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook}></BooksBox>
         </div>
     )
   }

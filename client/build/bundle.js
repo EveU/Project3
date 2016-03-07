@@ -19664,14 +19664,13 @@
 	
 	var React = __webpack_require__(1);
 	var Nav = __webpack_require__(160);
-	var BookDisplay = __webpack_require__(162);
 	var BooksBox = __webpack_require__(163);
 	
 	var ResourcesBox = React.createClass({
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { books: [], currentBook: '', languageToLearn: null, proficiency: null };
+	    return { books: [], currentBook: null, languageToLearn: null, proficiency: null };
 	  },
 	
 	  setLanguage: function setLanguage(language) {
@@ -19696,7 +19695,8 @@
 	        var receivedBooks = JSON.parse(request.responseText);
 	        // console.log(receivedBooks);
 	        this.setState({ books: receivedBooks });
-	        this.setState({ currentBook: receivedBooks[2] });
+	        var random = Math.floor(Math.random() * receivedBooks.length);
+	        this.setState({ currentBook: receivedBooks[random] });
 	      }
 	    }.bind(this);
 	    request.send(null);
@@ -19707,8 +19707,7 @@
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(BookDisplay, { book: this.state.currentBook }),
-	      React.createElement(BooksBox, { books: this.state.books, language: this.state.languageToLearn, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook })
+	      React.createElement(BooksBox, { books: this.state.books, book: this.state.currentBook, language: this.state.languageToLearn, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook })
 	    );
 	  }
 	});
@@ -19786,7 +19785,7 @@
 	      null,
 	      React.createElement(
 	        'select',
-	        { onChange: this.handleLanguageChange, value: this.state.selectedLanguage },
+	        { value: this.state.selectedLanguage, onChange: this.handleLanguageChange },
 	        React.createElement(
 	          'option',
 	          { value: '' },
@@ -19903,9 +19902,35 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var BookDisplay = __webpack_require__(162);
+	var BooksList = __webpack_require__(165);
 	
 	var BooksBox = React.createClass({
 	  displayName: 'BooksBox',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(BookDisplay, { book: this.props.book }),
+	      React.createElement(BooksList, { books: this.props.books, language: this.props.language, proficiency: this.props.proficiency, onSelectBook: this.props.onSelectBook })
+	    );
+	  }
+	});
+	
+	module.exports = BooksBox;
+
+/***/ },
+/* 164 */,
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var BooksList = React.createClass({
+	  displayName: 'BooksList',
 	
 	  getInitialState: function getInitialState() {
 	    return { selectedIndex: null };
@@ -20001,7 +20026,7 @@
 	  }
 	});
 	
-	module.exports = BooksBox;
+	module.exports = BooksList;
 
 /***/ }
 /******/ ]);
