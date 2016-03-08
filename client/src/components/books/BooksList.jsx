@@ -15,17 +15,21 @@ var BooksList = React.createClass({
 
   displayBooks: function(){
     var listBookInfo = this.props.books;
-    return listBookInfo.map(function(val, index){
-      return(
-        <li key={index} className="grid grid-3">
-          <img src={val.cover_image} />
-          <h3>{val.title}</h3>
-          <p><small>by</small> {val.author} </p>
-          <button value={index} onClick={this.handleClick} className={val.difficulty_level}> {val.language} | {val.difficulty_level}
-          </button>
-        </li>
-        )
-    }.bind(this));
+    if(listBookInfo.length > 0){
+      return listBookInfo.map(function(val, index){
+        return(
+          <li key={index} className="grid grid-3">
+            <img src={val.cover_image} />
+            <h3>{val.title}</h3>
+            <p><small>by</small> {val.author} </p>
+            <button value={index} onClick={this.handleClick} className={val.difficulty_level}> {val.language} | {val.difficulty_level}
+            </button>
+          </li>
+          )
+      }.bind(this));
+    }else{
+      return(<h4>Sorry, no books match your search.</h4>)
+    }
   },
 
   render: function(){

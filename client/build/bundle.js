@@ -19891,7 +19891,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'container' },
 	      React.createElement(BookDisplay, { book: this.props.book }),
 	      React.createElement(BooksList, { books: this.props.books, language: this.props.language, proficiency: this.props.proficiency, onSelectBook: this.props.onSelectBook })
 	    );
@@ -19916,6 +19916,11 @@
 	      return React.createElement(
 	        "div",
 	        { className: "container" },
+	        React.createElement(
+	          "h3",
+	          null,
+	          "Recommended:"
+	        ),
 	        React.createElement("img", { className: "main-book grid grid-4", src: this.props.book.cover_image }),
 	        React.createElement(
 	          "div",
@@ -19991,38 +19996,46 @@
 	
 	  displayBooks: function displayBooks() {
 	    var listBookInfo = this.props.books;
-	    return listBookInfo.map(function (val, index) {
-	      return React.createElement(
-	        "li",
-	        { key: index, className: "grid grid-3" },
-	        React.createElement("img", { src: val.cover_image }),
-	        React.createElement(
-	          "h3",
-	          null,
-	          val.title
-	        ),
-	        React.createElement(
-	          "p",
-	          null,
+	    if (listBookInfo.length > 0) {
+	      return listBookInfo.map(function (val, index) {
+	        return React.createElement(
+	          "li",
+	          { key: index, className: "grid grid-3" },
+	          React.createElement("img", { src: val.cover_image }),
 	          React.createElement(
-	            "small",
+	            "h3",
 	            null,
-	            "by"
+	            val.title
 	          ),
-	          " ",
-	          val.author,
-	          " "
-	        ),
-	        React.createElement(
-	          "button",
-	          { value: index, onClick: this.handleClick, className: val.difficulty_level },
-	          " ",
-	          val.language,
-	          " | ",
-	          val.difficulty_level
-	        )
+	          React.createElement(
+	            "p",
+	            null,
+	            React.createElement(
+	              "small",
+	              null,
+	              "by"
+	            ),
+	            " ",
+	            val.author,
+	            " "
+	          ),
+	          React.createElement(
+	            "button",
+	            { value: index, onClick: this.handleClick, className: val.difficulty_level },
+	            " ",
+	            val.language,
+	            " | ",
+	            val.difficulty_level
+	          )
+	        );
+	      }.bind(this));
+	    } else {
+	      return React.createElement(
+	        "h4",
+	        null,
+	        "Sorry, no books match your search."
 	      );
-	    }.bind(this));
+	    }
 	  },
 	
 	  render: function render() {
