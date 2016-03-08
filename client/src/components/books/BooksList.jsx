@@ -7,25 +7,22 @@ var BooksList = React.createClass({
 
   handleClick: function(e){
     e.preventDefault;
-    var index = e.target.value
+    var index = e.currentTarget.value
     this.setState( {selectedIndex: index} );
     var currentBook = this.props.books[index];
     this.props.onSelectBook(currentBook);
   },
 
   displayBooks: function(){
-    var listBookInfo = [];
-    for(var book of this.props.books){
-      if(!this.props.language || book.language === this.props.language){
-        if(!this.props.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.props.proficiency){
-          listBookInfo.push(book);
-        }
-      }
-    }
-    console.log('books', listBookInfo)
-    return listBookInfo.map(function(value, index){
-      return <li key={index} className="grid grid-3"> <img src={value.cover_image} /><h3>{value.title}</h3><p><small>by</small> {value.author} </p><button value={index} onClick={this.handleClick} className={value.difficulty_level}> {value.language} | {value.difficulty_level}</button></li>
-    }.bind(this))
+    var listBookInfo = this.props.books;
+    return listBookInfo.map(function(val, index){
+      return(
+        <li key={index} className="grid grid-3"> <img src={val.cover_image} /><h3>{val.title}</h3><p><small>by</small> {val.author} </p>
+          <button value={index} onClick={this.handleClick} className={val.difficulty_level}> {val.language} | {val.difficulty_level}
+          </button>
+        </li>
+        )
+    }.bind(this));
   },
 
   render: function(){

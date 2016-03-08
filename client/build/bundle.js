@@ -19670,15 +19670,51 @@
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { books: [], currentBook: null, languageToLearn: null, proficiency: null };
+	    return { books: [], filteredBooks: [], currentBook: null, language: null, proficiency: null };
+	  },
+	
+	  filterBooks: function filterBooks() {
+	    var books = [];
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = this.state.filteredBooks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var book = _step.value;
+	
+	        if (!this.state.language || book.language === this.state.language) {
+	          if (!this.state.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.state.proficiency) {
+	            books.push(book);
+	          }
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	
+	    console.log('books', books);
+	    this.setState({ filteredBooks: books });
 	  },
 	
 	  setLanguage: function setLanguage(language) {
-	    this.setState({ languageToLearn: language });
+	    this.setState({ language: language }, this.filterBooks());
 	  },
 	
 	  setProficiency: function setProficiency(proficiency) {
 	    this.setState({ proficiency: proficiency });
+	    this.filterBooks();
 	  },
 	
 	  setCurrentBook: function setCurrentBook(book) {
@@ -19695,6 +19731,7 @@
 	        var receivedBooks = JSON.parse(request.responseText);
 	        // console.log(receivedBooks);
 	        this.setState({ books: receivedBooks });
+	        this.setState({ filteredBooks: receivedBooks });
 	        var random = Math.floor(Math.random() * receivedBooks.length);
 	        this.setState({ currentBook: receivedBooks[random] });
 	      }
@@ -19707,7 +19744,7 @@
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(BooksBox, { books: this.state.books, book: this.state.currentBook, language: this.state.languageToLearn, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook })
+	      React.createElement(BooksBox, { books: this.state.filteredBooks, book: this.state.currentBook, language: this.state.language, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook })
 	    );
 	  }
 	});
@@ -19927,12 +19964,12 @@
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(1);
 	
 	var BooksList = React.createClass({
-	  displayName: 'BooksList',
+	  displayName: "BooksList",
 	
 	  getInitialState: function getInitialState() {
 	    return { selectedIndex: null };
@@ -19940,74 +19977,44 @@
 	
 	  handleClick: function handleClick(e) {
 	    e.preventDefault;
-	    var index = e.target.value;
+	    var index = e.currentTarget.value;
 	    this.setState({ selectedIndex: index });
 	    var currentBook = this.props.books[index];
 	    this.props.onSelectBook(currentBook);
 	  },
 	
 	  displayBooks: function displayBooks() {
-	    var listBookInfo = [];
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-	
-	    try {
-	      for (var _iterator = this.props.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	        var book = _step.value;
-	
-	        if (!this.props.language || book.language === this.props.language) {
-	          if (!this.props.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.props.proficiency) {
-	            listBookInfo.push(book);
-	          }
-	        }
-	      }
-	    } catch (err) {
-	      _didIteratorError = true;
-	      _iteratorError = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion && _iterator.return) {
-	          _iterator.return();
-	        }
-	      } finally {
-	        if (_didIteratorError) {
-	          throw _iteratorError;
-	        }
-	      }
-	    }
-	
-	    console.log('books', listBookInfo);
-	    return listBookInfo.map(function (value, index) {
+	    var listBookInfo = this.props.books;
+	    return listBookInfo.map(function (val, index) {
 	      return React.createElement(
-	        'li',
-	        { key: index, className: 'grid grid-3' },
-	        ' ',
-	        React.createElement('img', { src: value.cover_image }),
+	        "li",
+	        { key: index, className: "grid grid-3" },
+	        " ",
+	        React.createElement("img", { src: val.cover_image }),
 	        React.createElement(
-	          'h3',
+	          "h3",
 	          null,
-	          value.title
+	          val.title
 	        ),
 	        React.createElement(
-	          'p',
+	          "p",
 	          null,
 	          React.createElement(
-	            'small',
+	            "small",
 	            null,
-	            'by'
+	            "by"
 	          ),
-	          ' ',
-	          value.author,
-	          ' '
+	          " ",
+	          val.author,
+	          " "
 	        ),
 	        React.createElement(
-	          'button',
-	          { value: index, onClick: this.handleClick, className: value.difficulty_level },
-	          ' ',
-	          value.language,
-	          ' | ',
-	          value.difficulty_level
+	          "button",
+	          { value: index, onClick: this.handleClick, className: val.difficulty_level },
+	          " ",
+	          val.language,
+	          " | ",
+	          val.difficulty_level
 	        )
 	      );
 	    }.bind(this));
@@ -20015,16 +20022,16 @@
 	
 	  render: function render() {
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
 	      React.createElement(
-	        'h2',
+	        "h2",
 	        null,
-	        ' All Books '
+	        " All Books "
 	      ),
 	      React.createElement(
-	        'ul',
-	        { className: 'container' },
+	        "ul",
+	        { className: "container" },
 	        this.displayBooks()
 	      )
 	    );

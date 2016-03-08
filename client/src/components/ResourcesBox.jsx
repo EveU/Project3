@@ -4,15 +4,31 @@ var BooksBox = require('./books/BooksBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
-    return {books: [], currentBook: null, languageToLearn: null, proficiency: null }
+    return {books: [], filteredBooks: [], currentBook: null, language: null, proficiency: null }
+  },
+
+  filterBooks: function(){
+    var books = [];
+    for(var book of this.state.filteredBooks){
+      if(!this.state.language || book.language === this.state.language){
+        if(!this.state.proficiency || book.difficulty_level === 'Varied' || book.difficulty_level === this.state.proficiency){
+          books.push(book);
+        }
+      }
+    }
+    console.log('books', books);
+    this.setState( { filteredBooks: books } );
   },
 
   setLanguage: function(language){
-    this.setState( { languageToLearn: language } )
+    this.setState( { language: language },
+    this.filterBooks()
+     )
   },
 
   setProficiency: function(proficiency){
-    this.setState( { proficiency: proficiency } )
+    this.setState( { proficiency: proficiency } );
+    this.filterBooks();
   },
 
   setCurrentBook: function(book){
@@ -29,6 +45,7 @@ var ResourcesBox = React.createClass({
           var receivedBooks = JSON.parse(request.responseText);
           // console.log(receivedBooks);
           this.setState({ books: receivedBooks });
+          this.setState({ filteredBooks: receivedBooks });
           var random = Math.floor(Math.random() * receivedBooks.length);
           this.setState({ currentBook: receivedBooks[random] });
         }
@@ -38,10 +55,10 @@ var ResourcesBox = React.createClass({
 
   render: function(){
     return(
-        <div>
-          <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-          <BooksBox books={this.state.books} book={this.state.currentBook} language={this.state.languageToLearn} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook}></BooksBox>
-        </div>
+      <div>
+        <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
+        <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook}></BooksBox>
+      </div>
     )
   }
 });
