@@ -19987,10 +19987,7 @@
 	        React.createElement(
 	          'h3',
 	          null,
-	          value.title,
-	          ' (',
-	          value.language,
-	          ')'
+	          value.title
 	        ),
 	        React.createElement(
 	          'p',
@@ -20007,6 +20004,9 @@
 	        React.createElement(
 	          'button',
 	          { value: index, onClick: this.handleClick, className: value.difficulty_level },
+	          ' ',
+	          value.language,
+	          ' | ',
 	          value.difficulty_level
 	        )
 	      );

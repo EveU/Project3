@@ -104,6 +104,10 @@ img {
 
 /* DIFFICULTY LEVELS */
 
+button {
+  font-size: 13px;
+}
+
 .Beginner {
   background-color: green;
 }
