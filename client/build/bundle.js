@@ -19680,7 +19680,7 @@
 	    var _iteratorError = undefined;
 	
 	    try {
-	      for (var _iterator = this.state.filteredBooks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	      for (var _iterator = this.state.books[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	        var book = _step.value;
 	
 	        if (!this.state.language || book.language === this.state.language) {
@@ -19704,17 +19704,25 @@
 	      }
 	    }
 	
-	    console.log('books', books);
-	    this.setState({ filteredBooks: books });
+	    console.log('filtered books', books);
+	    this.setState({ filteredBooks: books }, function () {
+	      var random = Math.floor(Math.random() * books.length);
+	      this.setCurrentBook(books[random]);
+	    });
 	  },
 	
 	  setLanguage: function setLanguage(language) {
-	    this.setState({ language: language }, this.filterBooks());
+	    this.setState({ language: language }, function () {
+	      console.log(this.state.language);
+	      this.filterBooks();
+	    });
 	  },
 	
 	  setProficiency: function setProficiency(proficiency) {
-	    this.setState({ proficiency: proficiency });
-	    this.filterBooks();
+	    this.setState({ proficiency: proficiency }, function () {
+	      console.log(this.state.proficiency);
+	      this.filterBooks();
+	    });
 	  },
 	
 	  setCurrentBook: function setCurrentBook(book) {
@@ -19727,9 +19735,7 @@
 	    request.open("GET", booksUrl);
 	    request.onload = function () {
 	      if (request.status === 200) {
-	        // console.log('data received');
 	        var receivedBooks = JSON.parse(request.responseText);
-	        // console.log(receivedBooks);
 	        this.setState({ books: receivedBooks });
 	        this.setState({ filteredBooks: receivedBooks });
 	        var random = Math.floor(Math.random() * receivedBooks.length);
@@ -19989,7 +19995,6 @@
 	      return React.createElement(
 	        "li",
 	        { key: index, className: "grid grid-3" },
-	        " ",
 	        React.createElement("img", { src: val.cover_image }),
 	        React.createElement(
 	          "h3",
