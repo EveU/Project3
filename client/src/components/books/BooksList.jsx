@@ -24,7 +24,7 @@ var BooksList = React.createClass({
     }
     console.log('books', listBookInfo)
     return listBookInfo.map(function(value, index){
-      return <li key={index} className="grid grid-3"> <img src={value.cover_image} /><h3>{value.title}</h3><p><small>by</small> {value.author} </p><button value={index} onClick={this.handleClick} className={value.difficulty_level}>{value.difficulty_level}</button></li>
+      return <li key={index} className="grid grid-3"> <img src={value.cover_image} /><h3>{value.title} ({value.language})</h3><p><small>by</small> {value.author} </p><button value={index} onClick={this.handleClick} className={value.difficulty_level}>{value.difficulty_level}</button></li>
     }.bind(this))
   },
 

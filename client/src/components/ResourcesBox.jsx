@@ -1,6 +1,6 @@
 var React = require('react');
 var Nav = require('./Nav');
-var BooksBox = require('./BooksBox');
+var BooksBox = require('./books/BooksBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {

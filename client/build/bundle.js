@@ -19664,7 +19664,7 @@
 	
 	var React = __webpack_require__(1);
 	var Nav = __webpack_require__(160);
-	var BooksBox = __webpack_require__(163);
+	var BooksBox = __webpack_require__(162);
 	
 	var ResourcesBox = React.createClass({
 	  displayName: 'ResourcesBox',
@@ -19836,6 +19836,31 @@
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var BookDisplay = __webpack_require__(163);
+	var BooksList = __webpack_require__(164);
+	
+	var BooksBox = React.createClass({
+	  displayName: 'BooksBox',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(BookDisplay, { book: this.props.book }),
+	      React.createElement(BooksList, { books: this.props.books, language: this.props.language, proficiency: this.props.proficiency, onSelectBook: this.props.onSelectBook })
+	    );
+	  }
+	});
+	
+	module.exports = BooksBox;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 	
 	var React = __webpack_require__(1);
@@ -19855,7 +19880,10 @@
 	          React.createElement(
 	            "h2",
 	            { className: this.props.book.difficulty_level },
-	            this.props.book.title
+	            this.props.book.title,
+	            " (",
+	            this.props.book.language,
+	            ")"
 	          ),
 	          React.createElement(
 	            "h3",
@@ -19896,33 +19924,7 @@
 	module.exports = BookDisplay;
 
 /***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var BookDisplay = __webpack_require__(162);
-	var BooksList = __webpack_require__(165);
-	
-	var BooksBox = React.createClass({
-	  displayName: 'BooksBox',
-	
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(BookDisplay, { book: this.props.book }),
-	      React.createElement(BooksList, { books: this.props.books, language: this.props.language, proficiency: this.props.proficiency, onSelectBook: this.props.onSelectBook })
-	    );
-	  }
-	});
-	
-	module.exports = BooksBox;
-
-/***/ },
-/* 164 */,
-/* 165 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19985,7 +19987,10 @@
 	        React.createElement(
 	          'h3',
 	          null,
-	          value.title
+	          value.title,
+	          ' (',
+	          value.language,
+	          ')'
 	        ),
 	        React.createElement(
 	          'p',
