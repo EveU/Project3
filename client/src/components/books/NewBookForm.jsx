@@ -1,36 +1,26 @@
 var React = require('react');
 
 var NewBookForm = React.createClass({
-  getInitialState: function() {
-    return {book: {}};
-  },
-
-  //"title", "author", "cover_image", "genre", "language", "difficulty_level", "difficulty_desc", "description"
-
-  handleBookChange: function(e) {
-    this.setState({book: e.target.value});
-  },
 
   handleSubmit: function(e) {
     e.preventDefault();
     var title = e.target.title.value.trim();
     var author = e.target.author.value.trim();
-    // var image = e.target.image.value.trim();
-    // var genre = e.target.genre.value.trim();
-    // var desc = e.target.desc.value.trim();
-    // var language = e.target.language.value.trim();
-    // var diff_level = e.target.diff_level.value.trim();
-    // var diff_reasons = e.target.diff_reasons.value.trim();
+    var image = e.target.image.value.trim();
+    var genre = e.target.genre.value.trim();
+    var desc = e.target.desc.value.trim();
+    var language = e.target.language.value.trim();
+    var diff_level = e.target.diff_level.value.trim();
+    var diff_reasons = e.target.diff_reasons.value.trim();
     
     var book = {title: title, author: author}
 
-    // if (!title || !author) {
-    //   alert("Please complete all fields");
-    //   return;
-    // }
+    if (!title || !author) {
+      window.alert("Please complete all fields");
+      return;
+    }
 
     this.props.onBookSubmit({book: book});
-    // this.setState( {book: {} });
   },
 
   render: function(){

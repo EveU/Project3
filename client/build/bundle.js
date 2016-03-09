@@ -19745,12 +19745,30 @@
 	    request.send(null);
 	  },
 	
+	  handleBookSubmit: function handleBookSubmit(book) {
+	    var books = this.state.books;
+	    // book.id = Date.now();
+	    var newBooks = books.concat([book]);
+	    this.setState({ books: newBooks });
+	
+	    var request = new XMLHttpRequest();
+	    request.open('POST', 'http://localhost:3000/books');
+	    request.setRequestHeader("Content-Type", "application/json");
+	    request.onload = function () {
+	      if (request.status === 200) {
+	        var receivedBooks = JSON.parse(request.responseText);
+	        this.setState({ books: receivedBooks });
+	      }
+	    }.bind(this);
+	    request.send(JSON.stringify(book));
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(BooksBox, { books: this.state.filteredBooks, book: this.state.currentBook, language: this.state.language, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook })
+	      React.createElement(BooksBox, { books: this.state.filteredBooks, book: this.state.currentBook, language: this.state.language, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook, onBookSubmit: this.handleBookSubmit })
 	    );
 	  }
 	});
@@ -19884,6 +19902,7 @@
 	var React = __webpack_require__(1);
 	var BookDisplay = __webpack_require__(163);
 	var BooksList = __webpack_require__(164);
+	var NewBookForm = __webpack_require__(165);
 	
 	var BooksBox = React.createClass({
 	  displayName: 'BooksBox',
@@ -19893,7 +19912,8 @@
 	      'div',
 	      { className: 'container' },
 	      React.createElement(BookDisplay, { book: this.props.book }),
-	      React.createElement(BooksList, { books: this.props.books, language: this.props.language, proficiency: this.props.proficiency, onSelectBook: this.props.onSelectBook })
+	      React.createElement(BooksList, { books: this.props.books, language: this.props.language, proficiency: this.props.proficiency, onSelectBook: this.props.onSelectBook }),
+	      React.createElement(NewBookForm, { onBookSubmit: this.props.onBookSubmit })
 	    );
 	  }
 	});
@@ -20057,6 +20077,75 @@
 	});
 	
 	module.exports = BooksList;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var NewBookForm = React.createClass({
+	  displayName: "NewBookForm",
+	
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var title = e.target.title.value.trim();
+	    var author = e.target.author.value.trim();
+	    var image = e.target.image.value.trim();
+	    var genre = e.target.genre.value.trim();
+	    var desc = e.target.desc.value.trim();
+	    var language = e.target.language.value.trim();
+	    var diff_level = e.target.diff_level.value.trim();
+	    var diff_reasons = e.target.diff_reasons.value.trim();
+	
+	    var book = { title: title, author: author };
+	
+	    if (!title || !author) {
+	      window.alert("Please complete all fields");
+	      return;
+	    }
+	
+	    this.props.onBookSubmit({ book: book });
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement("hr", null),
+	      React.createElement(
+	        "h2",
+	        null,
+	        "Add a New Book:"
+	      ),
+	      React.createElement(
+	        "form",
+	        { onSubmit: this.handleSubmit },
+	        React.createElement("input", { type: "text", id: "title", placeholder: "Title" }),
+	        React.createElement("input", { type: "text", id: "author", placeholder: "Author" }),
+	        React.createElement("input", { type: "text", id: "image", placeholder: "Cover Image (url)" }),
+	        React.createElement("br", null),
+	        React.createElement("br", null),
+	        React.createElement("input", { type: "text", id: "genre", placeholder: "Genre" }),
+	        React.createElement("input", { type: "text", id: "desc", placeholder: "Description" }),
+	        React.createElement("br", null),
+	        React.createElement("br", null),
+	        React.createElement("input", { type: "text", id: "language", placeholder: "Language" }),
+	        React.createElement("input", { type: "text", id: "diff_level", placeholder: "Difficulty Level" }),
+	        React.createElement("input", { type: "text", id: "diff_reasons", placeholder: "Difficulty Reasons" }),
+	        React.createElement("br", null),
+	        React.createElement("br", null),
+	        React.createElement("input", { type: "submit", value: "Add Book" })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewBookForm;
 
 /***/ }
 /******/ ]);

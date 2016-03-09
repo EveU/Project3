@@ -57,11 +57,30 @@ var ResourcesBox = React.createClass({
       request.send(null);
   },
 
+  handleBookSubmit: function(book) {
+    var books = this.state.books;
+    // book.id = Date.now();
+    var newBooks = books.concat([book]);
+    this.setState({books: newBooks});
+
+    var request = new XMLHttpRequest();
+    request.open('POST', 'http://localhost:3000/books');
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onload = function(){
+      if(request.status === 200){
+        var receivedBooks = JSON.parse(request.responseText);
+        this.setState({ books: receivedBooks });
+      }
+    }.bind(this)
+    request.send( JSON.stringify(book) );
+
+  },
+
   render: function(){
     return(
       <div>
         <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-        <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook}></BooksBox>
+        <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
       </div>
     )
   }
