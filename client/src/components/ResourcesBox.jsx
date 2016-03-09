@@ -126,7 +126,7 @@ var ResourcesBox = React.createClass({
     return(
       <div>
         <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-        <SongsBox songs={this.state.filteredSongs} song={this.state.currentSong} ></SongsBox>
+        <SongsBox songs={this.state.filteredSongs} song={this.state.currentSong} onSelectSong={this.setCurrentSong}></SongsBox>
       </div>
     )
   }

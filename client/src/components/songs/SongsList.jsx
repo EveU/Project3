@@ -1,6 +1,14 @@
 var React = require('react');
 
 var SongsList = React.createClass({
+
+  handleClick: function(e){
+    e.preventDefault;
+    var index = e.currentTarget.value;
+    var currentSong = this.props.songs[index];
+    this.props.onSelectSong(currentSong);
+  },
+
   displaySongs: function(){
     var listSongInfo = this.props.songs;
     if(listSongInfo.length > 0){
@@ -11,7 +19,7 @@ var SongsList = React.createClass({
             <iframe width="210" height="155" src={embedLink} frameborder="0" allowfullscreen></iframe>
             <h3>{val.title}</h3>
             <p><small>by</small> {val.artist} </p>
-            <button value={index} className={val.difficulty}> {val.language} | {val.difficulty}
+            <button value={index} className={val.difficulty} onClick={this.handleClick}> {val.language} | {val.difficulty}
             </button>
           </li>
           )

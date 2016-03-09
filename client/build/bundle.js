@@ -19836,7 +19836,7 @@
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(SongsBox, { songs: this.state.filteredSongs, song: this.state.currentSong })
+	      React.createElement(SongsBox, { songs: this.state.filteredSongs, song: this.state.currentSong, onSelectSong: this.setCurrentSong })
 	    );
 	  }
 	});
@@ -20278,7 +20278,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(SongsList, { songs: this.props.songs })
+	      React.createElement(SongsList, { songs: this.props.songs, onSelectSong: this.props.onSelectSong })
 	    );
 	  }
 	});
@@ -20295,6 +20295,14 @@
 	
 	var SongsList = React.createClass({
 	  displayName: "SongsList",
+	
+	
+	  handleClick: function handleClick(e) {
+	    e.preventDefault;
+	    var index = e.currentTarget.value;
+	    var currentSong = this.props.songs[index];
+	    this.props.onSelectSong(currentSong);
+	  },
 	
 	  displaySongs: function displaySongs() {
 	    var listSongInfo = this.props.songs;
@@ -20324,7 +20332,7 @@
 	          ),
 	          React.createElement(
 	            "button",
-	            { value: index, className: val.difficulty },
+	            { value: index, className: val.difficulty, onClick: this.handleClick },
 	            " ",
 	            val.language,
 	            " | ",
