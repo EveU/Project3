@@ -13,18 +13,17 @@ var NewBookForm = React.createClass({
     var diff_level = e.target.diff_level.value.trim();
     var diff_reasons = e.target.diff_reasons.value.trim();
     
-    var book = {title: title, author: author}
-
-    if (!title || !author) {
+    if ( !title || !author || !image || !genre || !desc || !language || !diff_level || !diff_reasons ) {
       window.alert("Please complete all fields");
       return;
     }
 
-    this.props.onBookSubmit({book: book});
+    var book = {title:title, author:author, cover_image:image, genre:genre, description:desc, language:language, difficulty_level:diff_level, difficulty_desc:diff_reasons}
+
+    this.props.onBookSubmit(book);
   },
 
   render: function(){
-
     return(
       <div>
         <hr/>
