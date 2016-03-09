@@ -19671,7 +19671,7 @@
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], songsFiltered: [], currentSong: null };
+	    return { language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], filteredSongs: [], currentSong: null };
 	  },
 	
 	  filterBooks: function filterBooks() {
@@ -19712,10 +19712,49 @@
 	    });
 	  },
 	
+	  filterSongs: function filterSongs() {
+	    var songs = [];
+	    var _iteratorNormalCompletion2 = true;
+	    var _didIteratorError2 = false;
+	    var _iteratorError2 = undefined;
+	
+	    try {
+	      for (var _iterator2 = this.state.songs[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	        var song = _step2.value;
+	
+	        if (!this.state.language || song.language === this.state.language) {
+	          if (!this.state.proficiency || song.difficulty_level === this.state.proficiency) {
+	            songs.push(song);
+	          }
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError2 = true;
+	      _iteratorError2 = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	          _iterator2.return();
+	        }
+	      } finally {
+	        if (_didIteratorError2) {
+	          throw _iteratorError2;
+	        }
+	      }
+	    }
+	
+	    console.log('filtered songs', songs);
+	    this.setState({ filteredSongs: songs }, function () {
+	      var random = Math.floor(Math.random() * songs.length);
+	      this.setCurrentSong(songs[random]);
+	    });
+	  },
+	
 	  setLanguage: function setLanguage(language) {
 	    this.setState({ language: language }, function () {
 	      console.log(this.state.language);
 	      this.filterBooks();
+	      this.filterSongs();
 	    });
 	  },
 	
@@ -19723,11 +19762,16 @@
 	    this.setState({ proficiency: proficiency }, function () {
 	      console.log(this.state.proficiency);
 	      this.filterBooks();
+	      this.filterSongs();
 	    });
 	  },
 	
 	  setCurrentBook: function setCurrentBook(book) {
 	    this.setState({ currentBook: book });
+	  },
+	
+	  setCurrentSong: function setCurrentSong(song) {
+	    this.setState({ currentSong: song });
 	  },
 	
 	  getBooks: function getBooks() {
@@ -19746,13 +19790,29 @@
 	    request.send(null);
 	  },
 	
+	  getSongs: function getSongs() {
+	    var url = "http://localhost:3000/songs";
+	    var request = new XMLHttpRequest();
+	    request.open("GET", url);
+	    request.onload = function () {
+	      if (request.status === 200) {
+	        var data = JSON.parse(request.responseText);
+	        this.setState({ songs: data });
+	        this.setState({ filteredSongs: data });
+	        var random = Math.floor(Math.random() * data.length);
+	        this.setState({ currentSong: data[random] });
+	      }
+	    }.bind(this);
+	    request.send(null);
+	  },
+	
 	  componentDidMount: function componentDidMount() {
 	    this.getBooks();
+	    this.getSongs();
 	  },
 	
 	  handleBookSubmit: function handleBookSubmit(book) {
 	    var books = this.state.books;
-	    // book.id = Date.now();
 	    var newBooks = books.concat([book]);
 	    this.setState({ books: newBooks });
 	
@@ -19776,12 +19836,12 @@
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(BooksBox, { books: this.state.filteredBooks, book: this.state.currentBook, language: this.state.language, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook, onBookSubmit: this.handleBookSubmit })
+	      React.createElement(SongsBox, { songs: this.state.filteredSongs, song: this.state.currentSong })
 	    );
 	  }
 	});
 	
-	// <SongsBox></SongsBox>
+	// <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
 	
 	module.exports = ResourcesBox;
 
