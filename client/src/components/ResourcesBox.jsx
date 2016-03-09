@@ -5,7 +5,7 @@ var SongsBox = require('./songs/SongsBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
-    return {books: [], filteredBooks: [], currentBook: null, language: null, proficiency: null }
+    return {language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], songsFiltered: [], currentSong: null }
   },
 
   filterBooks: function(){
@@ -42,7 +42,7 @@ var ResourcesBox = React.createClass({
     this.setState( { currentBook: book } )
   },
 
-  componentDidMount: function(){
+  getBooks: function(){
     var booksUrl = "http://localhost:3000/books";
     var request = new XMLHttpRequest();
     request.open("GET", booksUrl);
@@ -56,6 +56,10 @@ var ResourcesBox = React.createClass({
       }
     }.bind(this)
     request.send(null);
+  },
+
+  componentDidMount: function(){
+    this.getBooks();
   },
 
   handleBookSubmit: function(book) {
@@ -84,12 +88,12 @@ var ResourcesBox = React.createClass({
     return(
       <div>
         <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-        <SongsBox></SongsBox>
+        <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
       </div>
     )
   }
 });
 
-        // <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
+        // <SongsBox></SongsBox>
 
 module.exports = ResourcesBox;

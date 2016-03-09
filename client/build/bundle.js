@@ -19671,7 +19671,7 @@
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { books: [], filteredBooks: [], currentBook: null, language: null, proficiency: null };
+	    return { language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], songsFiltered: [], currentSong: null };
 	  },
 	
 	  filterBooks: function filterBooks() {
@@ -19730,7 +19730,7 @@
 	    this.setState({ currentBook: book });
 	  },
 	
-	  componentDidMount: function componentDidMount() {
+	  getBooks: function getBooks() {
 	    var booksUrl = "http://localhost:3000/books";
 	    var request = new XMLHttpRequest();
 	    request.open("GET", booksUrl);
@@ -19744,6 +19744,10 @@
 	      }
 	    }.bind(this);
 	    request.send(null);
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this.getBooks();
 	  },
 	
 	  handleBookSubmit: function handleBookSubmit(book) {
@@ -19772,12 +19776,12 @@
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(SongsBox, null)
+	      React.createElement(BooksBox, { books: this.state.filteredBooks, book: this.state.currentBook, language: this.state.language, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook, onBookSubmit: this.handleBookSubmit })
 	    );
 	  }
 	});
 	
-	// <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
+	// <SongsBox></SongsBox>
 	
 	module.exports = ResourcesBox;
 
@@ -20205,20 +20209,43 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var SongsList = __webpack_require__(167);
 	
 	var SongsBox = React.createClass({
 	  displayName: 'SongsBox',
 	
 	  render: function render() {
 	    return React.createElement(
-	      'h1',
+	      'div',
 	      null,
-	      'Songs Box'
+	      React.createElement(SongsList, null)
 	    );
 	  }
 	});
 	
 	module.exports = SongsBox;
+
+/***/ },
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var SongsList = React.createClass({
+	  displayName: 'SongsList',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'h2',
+	      null,
+	      'SongsList'
+	    );
+	  }
+	});
+	
+	module.exports = SongsList;
 
 /***/ }
 /******/ ]);

@@ -1,9 +1,12 @@
 var React = require('react');
+var SongsList = require('./SongsList');
 
 var SongsBox = React.createClass({
   render: function(){
     return(
-      <h1>Songs Box</h1>
+      <div>
+        <SongsList/>
+      </div>
     )
   }
 });
