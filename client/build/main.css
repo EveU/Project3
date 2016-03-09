@@ -48,7 +48,6 @@ img {
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid black;
-  height: 380px;
 }
 
 .grid-1 {
@@ -62,10 +61,12 @@ img {
 .grid-3 {
   width: 24%;
   min-width: 168px;
+  min-height: 365px;
   margin: 5px 0.5%;
 }
 
 .grid-4 {
+  height: 380px;
   width: 33.3333333%;
   border: none;
 }

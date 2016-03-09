@@ -20105,7 +20105,7 @@
 	    var diff_reasons = e.target.diff_reasons.value.trim();
 	
 	    if (!title || !author || !image || !genre || !desc || !language || !diff_level || !diff_reasons) {
-	      window.message("Please complete all fields");
+	      window.alert("Please complete all fields");
 	      return;
 	    }
 	
@@ -20126,19 +20126,65 @@
 	      ),
 	      React.createElement(
 	        "form",
-	        { onSubmit: this.handleSubmit },
+	        { onSubmit: this.handleSubmit, className: "container" },
+	        React.createElement(
+	          "select",
+	          { id: "language" },
+	          React.createElement(
+	            "option",
+	            { value: "" },
+	            "Language..."
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "English" },
+	            "English"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Spanish" },
+	            "Spanish"
+	          )
+	        ),
+	        React.createElement(
+	          "select",
+	          { id: "diff_level" },
+	          React.createElement(
+	            "option",
+	            { value: "" },
+	            "Difficulty level..."
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Beginner" },
+	            "Beginner"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Intermediate" },
+	            "Intermediate"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Advanced" },
+	            "Advanced"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Varied" },
+	            "Varied"
+	          )
+	        ),
+	        React.createElement("br", null),
+	        React.createElement("br", null),
 	        React.createElement("input", { type: "text", id: "title", placeholder: "Title" }),
 	        React.createElement("input", { type: "text", id: "author", placeholder: "Author" }),
 	        React.createElement("input", { type: "text", id: "image", placeholder: "Cover Image (url)" }),
-	        React.createElement("br", null),
-	        React.createElement("br", null),
 	        React.createElement("input", { type: "text", id: "genre", placeholder: "Genre" }),
-	        React.createElement("input", { type: "text", id: "desc", placeholder: "Description" }),
 	        React.createElement("br", null),
 	        React.createElement("br", null),
-	        React.createElement("input", { type: "text", id: "language", placeholder: "Language" }),
-	        React.createElement("input", { type: "text", id: "diff_level", placeholder: "Difficulty Level" }),
-	        React.createElement("input", { type: "text", id: "diff_reasons", placeholder: "Difficulty Reasons" }),
+	        React.createElement("textarea", { rows: 5, cols: 83, id: "desc", placeholder: "Add a brief description of what this book is about..." }),
+	        React.createElement("textarea", { rows: 5, cols: 83, id: "diff_reasons", placeholder: "Explain why the book is suitable for the difficulty level given..." }),
 	        React.createElement("br", null),
 	        React.createElement("br", null),
 	        React.createElement("input", { type: "submit", value: "Add Book" })
