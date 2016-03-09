@@ -5,7 +5,13 @@ var SongsBox = require('./songs/SongsBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
-    return {language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], filteredSongs: [], currentSong: null }
+    return {activeTab: "books", language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], filteredSongs: [], currentSong: null }
+  },
+
+  setActiveTab: function(tab){
+    this.setState({activeTab: tab}, function(){
+      this.setDisplay();
+    });
   },
 
   filterBooks: function(){
@@ -99,6 +105,7 @@ var ResourcesBox = React.createClass({
   componentDidMount: function(){
     this.getBooks();
     this.getSongs();
+    // this.setDisplay();
   },
 
   handleBookSubmit: function(book) {
@@ -141,15 +148,24 @@ var ResourcesBox = React.createClass({
   },
 
   render: function(){
-    return(
-      <div>
-        <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-        <SongsBox songs={this.state.filteredSongs} song={this.state.currentSong} onSelectSong={this.setCurrentSong} onSongSubmit={this.handleSongSubmit}></SongsBox>
-      </div>
-    )
+    var partial;
+    if(this.state.activeTab === "books"){
+      return(
+        <div>
+          <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} onSelectTab={this.setActiveTab}></Nav>
+          <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
+        </div>
+      )
+    }else if(this.state.activeTab === "songs"){
+      return(
+        <div>
+          <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} onSelectTab={this.setActiveTab}></Nav>
+          <SongsBox songs={this.state.filteredSongs} song={this.state.currentSong} onSelectSong={this.setCurrentSong} onSongSubmit={this.handleSongSubmit}></SongsBox>
+        </div>
+      )
+    }
   }
 });
 
-        // <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
 
 module.exports = ResourcesBox;

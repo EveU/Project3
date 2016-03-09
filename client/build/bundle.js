@@ -19671,7 +19671,13 @@
 	  displayName: 'ResourcesBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], filteredSongs: [], currentSong: null };
+	    return { activeTab: "books", language: null, proficiency: null, books: [], filteredBooks: [], currentBook: null, songs: [], filteredSongs: [], currentSong: null };
+	  },
+	
+	  setActiveTab: function setActiveTab(tab) {
+	    this.setState({ activeTab: tab }, function () {
+	      this.setDisplay();
+	    });
 	  },
 	
 	  filterBooks: function filterBooks() {
@@ -19809,6 +19815,7 @@
 	  componentDidMount: function componentDidMount() {
 	    this.getBooks();
 	    this.getSongs();
+	    // this.setDisplay();
 	  },
 	
 	  handleBookSubmit: function handleBookSubmit(book) {
@@ -19851,16 +19858,24 @@
 	  },
 	
 	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(SongsBox, { songs: this.state.filteredSongs, song: this.state.currentSong, onSelectSong: this.setCurrentSong, onSongSubmit: this.handleSongSubmit })
-	    );
+	    var partial;
+	    if (this.state.activeTab === "books") {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency, onSelectTab: this.setActiveTab }),
+	        React.createElement(BooksBox, { books: this.state.filteredBooks, book: this.state.currentBook, language: this.state.language, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook, onBookSubmit: this.handleBookSubmit })
+	      );
+	    } else if (this.state.activeTab === "songs") {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency, onSelectTab: this.setActiveTab }),
+	        React.createElement(SongsBox, { songs: this.state.filteredSongs, song: this.state.currentSong, onSelectSong: this.setCurrentSong, onSongSubmit: this.handleSongSubmit })
+	      );
+	    }
 	  }
 	});
-	
-	// <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
 	
 	module.exports = ResourcesBox;
 
@@ -19875,6 +19890,14 @@
 	
 	var Nav = React.createClass({
 	  displayName: 'Nav',
+	
+	
+	  handleTabSelect: function handleTabSelect(e) {
+	    e.preventDefault;
+	    console.log(e.currentTarget.value);
+	    var tab = e.currentTarget.value;
+	    this.props.onSelectTab(tab);
+	  },
 	
 	  render: function render() {
 	    return React.createElement(
@@ -19893,6 +19916,32 @@
 	        'div',
 	        { className: 'go-right' },
 	        React.createElement(SearchForm, { onSelectLanguage: this.props.onSelectLanguage, onSelectProficiency: this.props.onSelectProficiency })
+	      ),
+	      React.createElement(
+	        'nav',
+	        { id: 'tabs' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'button',
+	              { value: 'books', onClick: this.handleTabSelect },
+	              'Books'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'button',
+	              { id: 'lastButton', value: 'songs', onClick: this.handleTabSelect },
+	              'Songs'
+	            )
+	          )
+	        )
 	      )
 	    );
 	  }
