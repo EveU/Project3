@@ -20278,7 +20278,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(SongsList, null)
+	      React.createElement(SongsList, { songs: this.props.songs })
 	    );
 	  }
 	});
@@ -20289,18 +20289,72 @@
 /* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(1);
 	
 	var SongsList = React.createClass({
-	  displayName: 'SongsList',
+	  displayName: "SongsList",
+	
+	  displaySongs: function displaySongs() {
+	    var listSongInfo = this.props.songs;
+	    if (listSongInfo.length > 0) {
+	      return listSongInfo.map(function (val, index) {
+	        var embedLink = "https://www.youtube.com/embed/" + val.video_url;
+	        return React.createElement(
+	          "li",
+	          { key: index, className: "grid songs" },
+	          React.createElement("iframe", { width: "210", height: "155", src: embedLink, frameborder: "0", allowfullscreen: true }),
+	          React.createElement(
+	            "h3",
+	            null,
+	            val.title
+	          ),
+	          React.createElement(
+	            "p",
+	            null,
+	            React.createElement(
+	              "small",
+	              null,
+	              "by"
+	            ),
+	            " ",
+	            val.artist,
+	            " "
+	          ),
+	          React.createElement(
+	            "button",
+	            { value: index, className: val.difficulty },
+	            " ",
+	            val.language,
+	            " | ",
+	            val.difficulty
+	          )
+	        );
+	      }.bind(this));
+	    } else {
+	      return React.createElement(
+	        "h4",
+	        null,
+	        "Sorry, no songs match your search."
+	      );
+	    }
+	  },
 	
 	  render: function render() {
 	    return React.createElement(
-	      'h2',
+	      "div",
 	      null,
-	      'SongsList'
+	      React.createElement(
+	        "h2",
+	        null,
+	        "All Songs"
+	      ),
+	      React.createElement(
+	        "ul",
+	        { className: "container" },
+	        this.displaySongs()
+	      )
 	    );
 	  }
 	});

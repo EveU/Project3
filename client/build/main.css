@@ -103,6 +103,12 @@ img {
   width: 100%;
 }
 
+.songs{
+  width: 235px;
+  min-height: 330px;
+  margin: 5px 0.5%;
+}
+
 /* DIFFICULTY LEVELS */
 
 button {

@@ -5,7 +5,7 @@ var SongsBox = React.createClass({
   render: function(){
     return(
       <div>
-        <SongsList/>
+        <SongsList songs={this.props.songs}/>
       </div>
     )
   }
