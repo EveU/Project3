@@ -19729,7 +19729,7 @@
 	        var song = _step2.value;
 	
 	        if (!this.state.language || song.language === this.state.language) {
-	          if (!this.state.proficiency || song.difficulty_level === this.state.proficiency) {
+	          if (!this.state.proficiency || song.difficulty === this.state.proficiency) {
 	            songs.push(song);
 	          }
 	        }
