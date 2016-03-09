@@ -1,6 +1,7 @@
 var React = require('react');
 var Nav = require('./Nav');
 var BooksBox = require('./books/BooksBox');
+var SongsBox = require('./songs/SongsBox');
 
 var ResourcesBox = React.createClass({
   getInitialState: function() {
@@ -83,11 +84,12 @@ var ResourcesBox = React.createClass({
     return(
       <div>
         <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-        <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
+        <SongsBox></SongsBox>
       </div>
     )
   }
 });
 
+        // <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
 
 module.exports = ResourcesBox;

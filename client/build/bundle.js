@@ -19665,6 +19665,7 @@
 	var React = __webpack_require__(1);
 	var Nav = __webpack_require__(160);
 	var BooksBox = __webpack_require__(162);
+	var SongsBox = __webpack_require__(166);
 	
 	var ResourcesBox = React.createClass({
 	  displayName: 'ResourcesBox',
@@ -19771,10 +19772,12 @@
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(BooksBox, { books: this.state.filteredBooks, book: this.state.currentBook, language: this.state.language, proficiency: this.state.proficiency, onSelectBook: this.setCurrentBook, onBookSubmit: this.handleBookSubmit })
+	      React.createElement(SongsBox, null)
 	    );
 	  }
 	});
+	
+	// <BooksBox books={this.state.filteredBooks} book={this.state.currentBook} language={this.state.language} proficiency={this.state.proficiency} onSelectBook={this.setCurrentBook} onBookSubmit={this.handleBookSubmit}></BooksBox>
 	
 	module.exports = ResourcesBox;
 
@@ -20194,6 +20197,28 @@
 	});
 	
 	module.exports = NewBookForm;
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var SongsBox = React.createClass({
+	  displayName: 'SongsBox',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'h1',
+	      null,
+	      'Songs Box'
+	    );
+	  }
+	});
+	
+	module.exports = SongsBox;
 
 /***/ }
 /******/ ]);
