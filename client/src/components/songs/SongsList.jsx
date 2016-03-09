@@ -16,7 +16,7 @@ var SongsList = React.createClass({
         var embedLink = "https://www.youtube.com/embed/" + val.video_url;
         return(
           <li key={index} className="grid songs">
-            <iframe width="210" height="155" src={embedLink} frameborder="0" allowfullscreen></iframe>
+            <iframe width="210" height="155" src={embedLink} frameBorder="0" allowFullScreen></iframe>
             <h3>{val.title}</h3>
             <p><small>by</small> {val.artist} </p>
             <button value={index} className={val.difficulty} onClick={this.handleClick}> {val.language} | {val.difficulty}

@@ -19831,12 +19831,31 @@
 	    request.send(JSON.stringify(book));
 	  },
 	
+	  handleSongSubmit: function handleSongSubmit(song) {
+	    var songs = this.state.songs;
+	    var newSongs = songs.concat([song]);
+	    this.setState({ songs: newSongs });
+	
+	    var request = new XMLHttpRequest();
+	    request.open('POST', 'http://localhost:3000/songs');
+	    request.setRequestHeader("Content-Type", "application/json");
+	    request.onload = function () {
+	      if (request.status === 200) {
+	        var receivedSongs = JSON.parse(request.responseText);
+	        this.setState({ songs: receivedSongs }, function () {
+	          this.filterSongs();
+	        });
+	      }
+	    }.bind(this);
+	    request.send(JSON.stringify(song));
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(Nav, { onSelectLanguage: this.setLanguage, onSelectProficiency: this.setProficiency }),
-	      React.createElement(SongsBox, { songs: this.state.filteredSongs, song: this.state.currentSong, onSelectSong: this.setCurrentSong })
+	      React.createElement(SongsBox, { songs: this.state.filteredSongs, song: this.state.currentSong, onSelectSong: this.setCurrentSong, onSongSubmit: this.handleSongSubmit })
 	    );
 	  }
 	});
@@ -20006,11 +20025,6 @@
 	      return React.createElement(
 	        "div",
 	        { className: "container" },
-	        React.createElement(
-	          "h3",
-	          null,
-	          "Recommended:"
-	        ),
 	        React.createElement("img", { className: "main-book grid grid-4", src: this.props.book.cover_image }),
 	        React.createElement(
 	          "div",
@@ -20271,6 +20285,7 @@
 	var React = __webpack_require__(1);
 	var SongsList = __webpack_require__(167);
 	var SongDisplay = __webpack_require__(168);
+	var NewSongForm = __webpack_require__(169);
 	
 	var SongsBox = React.createClass({
 	  displayName: 'SongsBox',
@@ -20280,7 +20295,8 @@
 	      'div',
 	      null,
 	      React.createElement(SongDisplay, { song: this.props.song }),
-	      React.createElement(SongsList, { songs: this.props.songs, onSelectSong: this.props.onSelectSong })
+	      React.createElement(SongsList, { songs: this.props.songs, onSelectSong: this.props.onSelectSong }),
+	      React.createElement(NewSongForm, { onSongSubmit: this.props.onSongSubmit })
 	    );
 	  }
 	});
@@ -20314,7 +20330,7 @@
 	        return React.createElement(
 	          "li",
 	          { key: index, className: "grid songs" },
-	          React.createElement("iframe", { width: "210", height: "155", src: embedLink, frameborder: "0", allowfullscreen: true }),
+	          React.createElement("iframe", { width: "210", height: "155", src: embedLink, frameBorder: "0", allowFullScreen: true }),
 	          React.createElement(
 	            "h3",
 	            null,
@@ -20389,14 +20405,9 @@
 	        "div",
 	        { className: "container" },
 	        React.createElement(
-	          "h3",
-	          null,
-	          "Recommended:"
-	        ),
-	        React.createElement(
 	          "div",
 	          { className: "grid grid-8" },
-	          React.createElement("iframe", { width: "450", height: "350", src: embedLink, frameborder: "0", allowfullscreen: true })
+	          React.createElement("iframe", { width: "450", height: "350", src: embedLink, frameBorder: "0", allowFullScreen: true })
 	        ),
 	        React.createElement(
 	          "div",
@@ -20435,6 +20446,113 @@
 	});
 	
 	module.exports = SongDisplay;
+
+/***/ },
+/* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var NewSongForm = React.createClass({
+	  displayName: "NewSongForm",
+	
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var title = e.target.title.value.trim();
+	    var artist = e.target.artist.value.trim();
+	    var video = e.target.video.value.trim();
+	    var genre = e.target.genre.value.trim();
+	    var language = e.target.language.value.trim();
+	    var difficulty = e.target.difficulty.value.trim();
+	    var desc = e.target.desc.value.trim();
+	
+	    if (!title || !artist || !video || !genre || !desc || !language || !difficulty) {
+	      window.alert("Please complete all fields");
+	      return;
+	    }
+	
+	    var song = { title: title, artist: artist, video_url: video, genre: genre, language: language, difficulty: difficulty, description: desc };
+	
+	    this.props.onSongSubmit(song);
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement("hr", null),
+	      React.createElement(
+	        "h2",
+	        null,
+	        "Add a New Song:"
+	      ),
+	      React.createElement(
+	        "form",
+	        { onSubmit: this.handleSubmit, className: "container" },
+	        React.createElement(
+	          "select",
+	          { id: "language" },
+	          React.createElement(
+	            "option",
+	            { value: "" },
+	            "Language..."
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "English" },
+	            "English"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Spanish" },
+	            "Spanish"
+	          )
+	        ),
+	        React.createElement(
+	          "select",
+	          { id: "difficulty" },
+	          React.createElement(
+	            "option",
+	            { value: "" },
+	            "Difficulty level..."
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Beginner" },
+	            "Beginner"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Intermediate" },
+	            "Intermediate"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Advanced" },
+	            "Advanced"
+	          )
+	        ),
+	        React.createElement("br", null),
+	        React.createElement("br", null),
+	        React.createElement("input", { type: "text", id: "title", placeholder: "Title" }),
+	        React.createElement("input", { type: "text", id: "artist", placeholder: "Artist" }),
+	        React.createElement("input", { type: "text", id: "video", placeholder: "Youtube link (11 digit code)" }),
+	        React.createElement("input", { type: "text", id: "genre", placeholder: "Genre" }),
+	        React.createElement("br", null),
+	        React.createElement("br", null),
+	        React.createElement("textarea", { rows: 5, cols: 83, id: "desc", placeholder: "Explain why the song is suitable for the difficulty level given..." }),
+	        React.createElement("br", null),
+	        React.createElement("br", null),
+	        React.createElement("input", { type: "submit", value: "Add Song" })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewSongForm;
 
 /***/ }
 /******/ ]);

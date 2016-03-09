@@ -119,14 +119,32 @@ var ResourcesBox = React.createClass({
       }
     }.bind(this)
     request.send( JSON.stringify(book) );
+  },
 
+  handleSongSubmit: function(song) {
+    var songs = this.state.songs;
+    var newSongs = songs.concat([song]);
+    this.setState({songs: newSongs});
+
+    var request = new XMLHttpRequest();
+    request.open('POST', 'http://localhost:3000/songs');
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onload = function(){
+      if(request.status === 200){
+        var receivedSongs = JSON.parse(request.responseText);
+        this.setState({ songs: receivedSongs }, function () {
+            this.filterSongs();   
+        });
+      }
+    }.bind(this)
+    request.send( JSON.stringify(song) );
   },
 
   render: function(){
     return(
       <div>
         <Nav onSelectLanguage={this.setLanguage} onSelectProficiency={this.setProficiency} ></Nav>
-        <SongsBox songs={this.state.filteredSongs} song={this.state.currentSong} onSelectSong={this.setCurrentSong}></SongsBox>
+        <SongsBox songs={this.state.filteredSongs} song={this.state.currentSong} onSelectSong={this.setCurrentSong} onSongSubmit={this.handleSongSubmit}></SongsBox>
       </div>
     )
   }

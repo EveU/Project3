@@ -5,7 +5,6 @@ var BookDisplay = React.createClass({
     if(this.props.book){
     return(
       <div className="container">
-        <h3>Recommended:</h3>
         <img className="main-book grid grid-4" src={this.props.book.cover_image} />
         <div className="grid grid-8">
           <h2 className={this.props.book.difficulty_level}>{this.props.book.title} ({this.props.book.language})</h2>

@@ -6,9 +6,8 @@ var SongDisplay = React.createClass({
       var embedLink = "https://www.youtube.com/embed/" + this.props.song.video_url;
       return(
         <div className="container">
-          <h3>Recommended:</h3>
           <div className="grid grid-8">
-            <iframe width="450" height="350" src={embedLink} frameborder="0" allowfullscreen></iframe>
+            <iframe width="450" height="350" src={embedLink} frameBorder="0" allowFullScreen></iframe>
           </div>
           <div className="grid grid-4">
             <h2>{this.props.song.title}</h2>
