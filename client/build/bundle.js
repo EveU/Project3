@@ -20270,6 +20270,7 @@
 	
 	var React = __webpack_require__(1);
 	var SongsList = __webpack_require__(167);
+	var SongDisplay = __webpack_require__(168);
 	
 	var SongsBox = React.createClass({
 	  displayName: 'SongsBox',
@@ -20278,6 +20279,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(SongDisplay, { song: this.props.song }),
 	      React.createElement(SongsList, { songs: this.props.songs, onSelectSong: this.props.onSelectSong })
 	    );
 	  }
@@ -20368,6 +20370,71 @@
 	});
 	
 	module.exports = SongsList;
+
+/***/ },
+/* 168 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var SongDisplay = React.createClass({
+	  displayName: "SongDisplay",
+	
+	  render: function render() {
+	    if (this.props.song) {
+	      var embedLink = "https://www.youtube.com/embed/" + this.props.song.video_url;
+	      return React.createElement(
+	        "div",
+	        { className: "container" },
+	        React.createElement(
+	          "h3",
+	          null,
+	          "Recommended:"
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "grid grid-8" },
+	          React.createElement("iframe", { width: "450", height: "350", src: embedLink, frameborder: "0", allowfullscreen: true })
+	        ),
+	        React.createElement(
+	          "div",
+	          { className: "grid grid-4" },
+	          React.createElement(
+	            "h2",
+	            null,
+	            this.props.song.title
+	          ),
+	          React.createElement(
+	            "h3",
+	            null,
+	            this.props.song.artist
+	          ),
+	          React.createElement("hr", null),
+	          React.createElement(
+	            "h4",
+	            null,
+	            this.props.song.language,
+	            " (",
+	            this.props.song.difficulty,
+	            ")"
+	          ),
+	          React.createElement(
+	            "p",
+	            null,
+	            this.props.song.description
+	          )
+	        ),
+	        React.createElement("br", null)
+	      );
+	    } else {
+	      return React.createElement("div", null);
+	    }
+	  }
+	});
+	
+	module.exports = SongDisplay;
 
 /***/ }
 /******/ ]);

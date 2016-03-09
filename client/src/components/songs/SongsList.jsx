@@ -13,7 +13,7 @@ var SongsList = React.createClass({
     var listSongInfo = this.props.songs;
     if(listSongInfo.length > 0){
       return listSongInfo.map(function(val, index){
-        var embedLink = "https://www.youtube.com/embed/" + val.video_url
+        var embedLink = "https://www.youtube.com/embed/" + val.video_url;
         return(
           <li key={index} className="grid songs">
             <iframe width="210" height="155" src={embedLink} frameborder="0" allowfullscreen></iframe>
