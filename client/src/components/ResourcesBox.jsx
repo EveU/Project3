@@ -46,15 +46,15 @@ var ResourcesBox = React.createClass({
     var request = new XMLHttpRequest();
     request.open("GET", booksUrl);
     request.onload = function(){
-        if(request.status === 200){
-          var receivedBooks = JSON.parse(request.responseText);
-          this.setState({ books: receivedBooks });
-          this.setState({ filteredBooks: receivedBooks });
-          var random = Math.floor(Math.random() * receivedBooks.length);
-          this.setState({ currentBook: receivedBooks[random] });
-        }
-      }.bind(this)
-      request.send(null);
+      if(request.status === 200){
+        var receivedBooks = JSON.parse(request.responseText);
+        this.setState({ books: receivedBooks });
+        this.setState({ filteredBooks: receivedBooks });
+        var random = Math.floor(Math.random() * receivedBooks.length);
+        this.setState({ currentBook: receivedBooks[random] });
+      }
+    }.bind(this)
+    request.send(null);
   },
 
   handleBookSubmit: function(book) {
@@ -69,7 +69,10 @@ var ResourcesBox = React.createClass({
     request.onload = function(){
       if(request.status === 200){
         var receivedBooks = JSON.parse(request.responseText);
-        this.setState({ books: receivedBooks });
+        this.setState({ books: receivedBooks }, function () {
+            console.log(this.state.language);
+            this.filterBooks();   
+        });
       }
     }.bind(this)
     request.send( JSON.stringify(book) );

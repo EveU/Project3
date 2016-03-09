@@ -19757,7 +19757,10 @@
 	    request.onload = function () {
 	      if (request.status === 200) {
 	        var receivedBooks = JSON.parse(request.responseText);
-	        this.setState({ books: receivedBooks });
+	        this.setState({ books: receivedBooks }, function () {
+	          console.log(this.state.language);
+	          this.filterBooks();
+	        });
 	      }
 	    }.bind(this);
 	    request.send(JSON.stringify(book));
@@ -20102,7 +20105,7 @@
 	    var diff_reasons = e.target.diff_reasons.value.trim();
 	
 	    if (!title || !author || !image || !genre || !desc || !language || !diff_level || !diff_reasons) {
-	      window.alert("Please complete all fields");
+	      window.message("Please complete all fields");
 	      return;
 	    }
 	

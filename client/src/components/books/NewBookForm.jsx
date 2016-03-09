@@ -14,7 +14,7 @@ var NewBookForm = React.createClass({
     var diff_reasons = e.target.diff_reasons.value.trim();
     
     if ( !title || !author || !image || !genre || !desc || !language || !diff_level || !diff_reasons ) {
-      window.alert("Please complete all fields");
+      window.message("Please complete all fields");
       return;
     }
 
