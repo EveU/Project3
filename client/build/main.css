@@ -47,6 +47,10 @@ nav ul li button {
   border: none;
 }
 
+#nav form {
+  margin-right: 20px;
+}
+
 /* IMAGES */
 
 img {
